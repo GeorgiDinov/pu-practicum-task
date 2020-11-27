@@ -1,0 +1,6 @@
+CREATE TABLE item (
+ id BIGINT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+ name varchar(255) NOT NULL,
+ quantity INT NOT NULL,
+ is_selected BOOLEAN NOT NULL
+ );

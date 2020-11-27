@@ -61,7 +61,7 @@ public class ItemServiceImpl implements ItemService {
             item.setName(itemToUpdate.getName());
             item.setQuantity(itemToUpdate.getQuantity());
             item.setSelected(true);
-            log.info("Updating Selection Status On Item name={}, quantity={}", item.getName(), item.getQuantity());
+            log.info("Updating isSelected Property On Item name={}, quantity={}", item.getName(), item.getQuantity());
             return repository.save(item);
         }).orElseGet(() -> {
             itemToUpdate.setId(id);
