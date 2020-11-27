@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface BaseEntityRepository extends CrudRepository<Item, Long> {
+public interface ItemRepository extends CrudRepository<Item, Long> {
     List<Item> findAllByOrderById();
 }

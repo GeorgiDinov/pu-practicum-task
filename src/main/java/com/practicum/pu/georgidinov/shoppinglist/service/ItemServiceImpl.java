@@ -3,7 +3,7 @@ package com.practicum.pu.georgidinov.shoppinglist.service;
 import com.practicum.pu.georgidinov.shoppinglist.entity.Item;
 import com.practicum.pu.georgidinov.shoppinglist.exception.ItemNotFoundException;
 import com.practicum.pu.georgidinov.shoppinglist.exception.ValidationCheckException;
-import com.practicum.pu.georgidinov.shoppinglist.repository.BaseEntityRepository;
+import com.practicum.pu.georgidinov.shoppinglist.repository.ItemRepository;
 import com.practicum.pu.georgidinov.shoppinglist.validator.BaseNamedEntityValidator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +17,12 @@ import java.util.Optional;
 public class ItemServiceImpl implements ItemService {
 
     //== fields ==
-    private final BaseEntityRepository repository;
+    private final ItemRepository repository;
     private final BaseNamedEntityValidator baseNamedEntityValidator;
 
     //== constructors ==
     @Autowired
-    public ItemServiceImpl(BaseEntityRepository repository,
+    public ItemServiceImpl(ItemRepository repository,
                            BaseNamedEntityValidator baseNamedEntityValidator) {
         this.repository = repository;
         this.baseNamedEntityValidator = baseNamedEntityValidator;
@@ -31,7 +31,7 @@ public class ItemServiceImpl implements ItemService {
     //== public methods ==
     @Override
     public List<Item> findAllItems() {
-        return (List<Item>) this.repository.findAllByOrderById();
+        return this.repository.findAllByOrderById();
     }
 
     @Override
