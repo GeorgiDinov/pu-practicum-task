@@ -147,15 +147,15 @@ function deleteItemErrorMessage(item) {
     //todo implementation
 }
 
-function makeOptionFontWeightLighter() {
-    let options = document.getElementsByTagName('option');
-    console.log(options);
-    for (let i = 0; i < options.length; i++) {
-        let optionText = options[i].innerText;
-        optionText = "One"
-        options[i].innerText = optionText;
-        console.log(optionText);
-    }
-}
-
-makeOptionFontWeightLighter();
+// function makeOptionFontWeightLighter() {
+//     let options = document.getElementsByTagName('option');
+//     console.log(options);
+//     for (let i = 0; i < options.length; i++) {
+//         let optionText = options[i].innerText;
+//         optionText = "One"
+//         options[i].innerText = optionText;
+//         console.log(optionText);
+//     }
+// }
+//
+// makeOptionFontWeightLighter();
