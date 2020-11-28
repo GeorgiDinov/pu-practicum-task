@@ -3,50 +3,50 @@ Very Basic Full Stack Single Page Application Representing The Idea Of Shopping 
 For persistence on my local environment I use Docker container and MySQL DBMS
 
 You can run it without persistence with H2 in memory database by comment and uncomment
-a few lines in application properties file. 
-The table for H2 database will be created from
-data-h2.sql file on start up. If you want to place mock data you can do insertions there.
+a few lines in application properties file. <br/>
+The table for H2 database will be created from data-h2.sql file on start up. <br/>
+If you want to place mock data you can do insertions there.<br/>
 
-In case you have docker on your machine, 
-and you want to persist the data  I've prepared brief explanation on how to run configured docker image for our database(see bellow the screenshots).
+In case you have docker on your machine, and you want to persist the data  <br/>
+I've prepared brief explanation on how to run configured docker image for our database(see bellow the screenshots).
 
 Main Functionality Overview
 
 Add New Item
-![Screenshot](Screenshots/pu-practicum-add-item.png)
+![Screenshot](Screenshots/pu-practicum-add-item.png)<br/>
 
 Cross Item When Clicked For The First Time
-![Screenshot](Screenshots/pu-practicum-cross-item.png)
+![Screenshot](Screenshots/pu-practicum-cross-item.png)<br/>
 
 Mobile View
-![Screenshot](Screenshots/pu-practicum-mobile-view.png)
+![Screenshot](Screenshots/pu-practicum-mobile-view.png)<br/>
 
 Delete Crossed Item When Clicked
-![Screenshot](Screenshots/pu-practicum-delete-item.png)
+![Screenshot](Screenshots/pu-practicum-delete-item.png)<br/>
 
 
-MySQL On Docker
-*The following command will download and configure mysql image if used for the first time,
-*if you already have this image on your machine it will not download it, unless if tag name is not specified
-*or newer tag version is released.
-*It will configure root password to 'mysql', it will create database 'shopping_items_db', 
-*it will create new user 'practicum' with user_password 'practicum',
-*and it will assign this user as superuser for the database(shopping_items_db).
-** -v stands for volume and if you want your database to be persisted after container is stopped you should use it
-** in your command. For our case with mysql after the path on your machine you need to add :/var/lib/mysql
-** it is mysql specific for other containers read documentation what is needed. 
-*** -d the container will run as a background process 
+MySQL On Docker <br/><br/>
+    The following command will download and configure mysql image if used for the first time,<br/>
+if you already have this image on your machine it will not download it, unless different tag name is specified or newer tag version is released.<br/>
+    It will configure root password to 'mysql', it will create database 'shopping_items_db', <br/>
+it will create new user 'practicum' with user_password 'practicum',<br/>
+and it will assign this user as superuser for the database(shopping_items_db).<br/>
+ -v stands for volume and if you want your database to be persisted after container its stopped you should use it in your command. <br/>
+For our case with mysql after the path on your machine you need to add :/var/lib/mysql<br/>
+ it is mysql specific for other containers read documentation what is needed. <br/>
+ -d the container will run as a background process <br/>
 
-docker run --name mysql-container -e MYSQL_ROOT_PASSWORD=mysql -e MYSQL_DATABASE=shopping_items_db -e MYSQL_USER=practicum -e MYSQL_PASSWORD=practicum -v D:\Programming\DOCKER_DATA\MySql\shopping_items_db:/var/lib/mysql -p 3306:3306 -d mysql
+    docker run --name mysql-container -e MYSQL_ROOT_PASSWORD=mysql -e MYSQL_DATABASE=shopping_items_db -e MYSQL_USER=practicum -e MYSQL_PASSWORD=practicum -v D:\Programming\DOCKER_DATA\MySql\shopping_items_db:/var/lib/mysql -p 3306:3306 -d mysql<br/>
 
+docker start mysql-container / docker stop mysql-container<br/>
+docker exec -it mysql-container bash<br/>
+mysql --user=practicum -p -> then type or copy the password -> practicum<br/>
 
-docker start mysql-container / docker stop mysql-container
-docker exec -it mysql-container bash
-mysql --user=practicum -p -> then type or copy the password -> practicum
+   Now Just Type Or Paste The Following Queries<br/>
+ 
+SHOW DATABASES;<br/>
 
-SHOW DATABASES;
-
-USE shopping_items_db;
+USE shopping_items_db;<br/>
 
 CREATE TABLE item (
  id BIGINT AUTO_INCREMENT NOT NULL PRIMARY KEY,
