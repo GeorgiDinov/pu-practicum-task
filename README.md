@@ -32,7 +32,10 @@ if you already have this image on your machine it will not download it, unless d
 it will create new user 'practicum' with user_password 'practicum',<br/>
 and it will assign this user as superuser for the database(shopping_items_db).<br/>
  -v stands for volume and if you want your database to be persisted after container its stopped you should use it in your command. <br/>
-For our case with mysql after the path on your machine you need to add :/var/lib/mysql<br/>
+For our case with mysql after the path on your machine you need to add <br/>
+
+    :/var/lib/mysql
+    
  it is mysql specific for other containers read documentation what is needed. <br/>
  -d the container will run as a background process <br/>
 
