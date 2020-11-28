@@ -38,7 +38,7 @@ For our case with mysql after the path on your machine you need to add :/var/lib
 
 The command<br/>
 
-    docker run --name mysql-container -e MYSQL_ROOT_PASSWORD=mysql -e MYSQL_DATABASE=shopping_items_db -e MYSQL_USER=practicum -e MYSQL_PASSWORD=practicum -v D:\Programming\DOCKER_DATA\MySql\shopping_items_db:/var/lib/mysql -p 3306:3306 -d mysql<br/>
+    docker run --name mysql-container -e MYSQL_ROOT_PASSWORD=mysql -e MYSQL_DATABASE=shopping_items_db -e MYSQL_USER=practicum -e MYSQL_PASSWORD=practicum -v D:\Programming\DOCKER_DATA\MySql\shopping_items_db:/var/lib/mysql -p 3306:3306 -d mysql
 
 In case you want to start / stop your container
 
@@ -52,9 +52,7 @@ Open Bash In Your Container
 Sigh In With Your User And Password From The docker run command
 
     mysql --user=practicum -p
-    then type your password
-
-
+    
    Now Just Type Or Paste The Following Queries<br/>
  
     SHOW DATABASES;
