@@ -36,22 +36,37 @@ For our case with mysql after the path on your machine you need to add :/var/lib
  it is mysql specific for other containers read documentation what is needed. <br/>
  -d the container will run as a background process <br/>
 
+The command<br/>
+
     docker run --name mysql-container -e MYSQL_ROOT_PASSWORD=mysql -e MYSQL_DATABASE=shopping_items_db -e MYSQL_USER=practicum -e MYSQL_PASSWORD=practicum -v D:\Programming\DOCKER_DATA\MySql\shopping_items_db:/var/lib/mysql -p 3306:3306 -d mysql<br/>
 
-docker start mysql-container / docker stop mysql-container<br/>
-docker exec -it mysql-container bash<br/>
-mysql --user=practicum -p -> then type or copy the password -> practicum<br/>
+In case you want to start / stop your container
+
+    docker stop mysql-container
+    docker start mysql-container
+
+Open Bash In Your Container
+
+    docker exec -it mysql-container bash
+
+Sigh In With Your User And Password From The docker run command
+
+    mysql --user=practicum -p
+    then type your password
+
 
    Now Just Type Or Paste The Following Queries<br/>
  
-SHOW DATABASES;<br/>
+    SHOW DATABASES;
 
-USE shopping_items_db;<br/>
+    USE shopping_items_db;
 
-CREATE TABLE item (
- id BIGINT AUTO_INCREMENT NOT NULL PRIMARY KEY,
- name varchar(255) NOT NULL,
- quantity INT NOT NULL,
- is_selected BOOLEAN NOT NULL
- );
+    CREATE TABLE item (
+    id BIGINT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    name varchar(255) NOT NULL,
+    quantity INT NOT NULL,
+    is_selected BOOLEAN NOT NULL
+    );
 
+Start Yor Spring Boot Application<br/>
+Or After Maven Clean Install Run It As Fully Executable Jar File
