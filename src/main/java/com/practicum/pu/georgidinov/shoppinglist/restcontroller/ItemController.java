@@ -6,6 +6,7 @@ import com.practicum.pu.georgidinov.shoppinglist.exception.ValidationCheckExcept
 import com.practicum.pu.georgidinov.shoppinglist.service.ItemService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,15 +32,19 @@ public class ItemController {
         this.itemService = itemService;
     }
 
+//    hasRole('ROLE_') hasAnyRole('ROLE_') hasAuthority('permission') hasAnyAuthority('permission')
 
     //== public methods ==
     @GetMapping()
+    @PreAuthorize("hasRole('ROLE_USER')")
     public List<Item> getAllItems() {
         log.info("ItemController getAllItems()");
         return this.itemService.findAllItems();
     }
 
     @GetMapping("/{itemId}")
+//    @PreAuthorize("hasAuthority('item:read')")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public Item getItemById(@PathVariable String itemId) {
         log.info("ItemController getItemById()");
         log.info("id value passed = {}", itemId);
@@ -47,6 +52,8 @@ public class ItemController {
     }
 
     @DeleteMapping("/{itemId}")
+//    @PreAuthorize("hasAuthority('item:write')")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public void deleteItemById(@PathVariable String itemId) {
         log.info("ItemController deleteItemById()");
         log.info("id value passed = {}", itemId);
@@ -54,6 +61,8 @@ public class ItemController {
     }
 
     @PutMapping("/{itemId}")
+//    @PreAuthorize("hasAuthority('item:write')")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public Item changeItemState(@RequestBody Item itemToUpdate, @PathVariable String itemId) throws ValidationCheckException {
         log.info("ItemController changeItemState(Item itemToUpdate, String itemId)");
         log.info("id value passed = {}", itemId);
@@ -61,6 +70,8 @@ public class ItemController {
     }
 
     @PostMapping("/newItem")
+//    @PreAuthorize("hasAuthority('item:write')")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public Item addNewItem(@RequestBody Item item) {
         log.info("ItemController addNewItem()");
         log.info("item passed = {}", item);

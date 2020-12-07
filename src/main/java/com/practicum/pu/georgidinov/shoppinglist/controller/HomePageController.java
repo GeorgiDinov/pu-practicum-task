@@ -15,6 +15,11 @@ import static com.practicum.pu.georgidinov.shoppinglist.util.ApplicationConstant
 @Controller
 public class HomePageController {
 
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
+
     @GetMapping({HOME_PAGE_MAPPING_DEFAULT, HOME_PAGE_MAPPING_SLASH,
             HOME_PAGE_MAPPING_HOME, HOME_PAGE_MAPPING_HOME_HTML,
             HOME_PAGE_MAPPING_INDEX, HOME_PAGE_MAPPING_INDEX_HTML})
