@@ -1,33 +1,44 @@
 package com.practicum.pu.georgidinov.shoppinglist.auth;
 
+import com.practicum.pu.georgidinov.shoppinglist.entity.ShoppingListUserCredentials;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Set;
 
+@Slf4j
+@Getter
+@Setter
+@NoArgsConstructor
 public class ShoppingListUserDetails implements UserDetails {
 
     //== constants ==
-    private static final boolean IS_TRUE = true;
+    private static final boolean TRUE = true;
+
+    //---------------------------------------------
+    private boolean isAccountNonExpired = TRUE;      //todo figure out how to implement if needed
+    private boolean isAccountNonLocked = TRUE;       //todo figure out how to implement if needed
+    private boolean isCredentialsNonExpired = TRUE;  //todo figure out how to implement if needed
+    private boolean isEnabled = TRUE;                //todo figure out how to implement if needed
+    //---------------------------------------------
 
     //== fields ==
-    private final String username;
-    private final String password;
-    private final Set<? extends GrantedAuthority> grantedAuthorities;
-
-    private final boolean isAccountNonExpired = IS_TRUE;//todo when basic flow is up and running
-    private final boolean isAccountNonLocked = IS_TRUE;//todo when basic flow is up and running
-    private final boolean isCredentialsNonExpired = IS_TRUE;//todo when basic flow is up and running
-    private final boolean isEnabled = IS_TRUE;//todo when basic flow is up and running
-
+    private ShoppingListUserCredentials shoppingListUserCredentials;
+    private String username;
+    private String password;
+    private Set<? extends GrantedAuthority> grantedAuthorities;
 
     //== constructors ==
-    public ShoppingListUserDetails(String username, String password,
-                                   Set<? extends GrantedAuthority> grantedAuthorities) {
-        this.username = username;
-        this.password = password;
-        this.grantedAuthorities = grantedAuthorities;
+    public ShoppingListUserDetails(ShoppingListUserCredentials shoppingListUserCredentials) {
+        this.shoppingListUserCredentials = shoppingListUserCredentials;
+        this.username = this.shoppingListUserCredentials.getUsername();
+        this.password = this.shoppingListUserCredentials.getPassword();
+        this.grantedAuthorities = shoppingListUserCredentials.getUserRole().getGrantedAuthorities();
     }
 
 
@@ -50,21 +61,21 @@ public class ShoppingListUserDetails implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return IS_TRUE;
+        return isAccountNonExpired;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return IS_TRUE;
+        return isAccountNonLocked;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return IS_TRUE;
+        return isCredentialsNonExpired;
     }
 
     @Override
     public boolean isEnabled() {
-        return IS_TRUE;
+        return isEnabled;
     }
 }

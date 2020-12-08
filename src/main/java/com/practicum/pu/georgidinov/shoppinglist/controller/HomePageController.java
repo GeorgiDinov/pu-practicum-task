@@ -9,15 +9,17 @@ import static com.practicum.pu.georgidinov.shoppinglist.util.ApplicationConstant
 import static com.practicum.pu.georgidinov.shoppinglist.util.ApplicationConstants.HOME_PAGE_MAPPING_INDEX;
 import static com.practicum.pu.georgidinov.shoppinglist.util.ApplicationConstants.HOME_PAGE_MAPPING_INDEX_HTML;
 import static com.practicum.pu.georgidinov.shoppinglist.util.ApplicationConstants.HOME_PAGE_MAPPING_SLASH;
+import static com.practicum.pu.georgidinov.shoppinglist.util.ApplicationConstants.LOGIN_PAGE_MAPPING_LOGIN;
 import static com.practicum.pu.georgidinov.shoppinglist.util.ApplicationConstants.VIEW_NAME_HOME_PAGE;
+import static com.practicum.pu.georgidinov.shoppinglist.util.ApplicationConstants.VIEW_NAME_LOGIN_PAGE;
 
 
 @Controller
 public class HomePageController {
 
-    @GetMapping("/login")
+    @GetMapping(LOGIN_PAGE_MAPPING_LOGIN)
     public String login() {
-        return "login";
+        return VIEW_NAME_LOGIN_PAGE;
     }
 
     @GetMapping({HOME_PAGE_MAPPING_DEFAULT, HOME_PAGE_MAPPING_SLASH,
