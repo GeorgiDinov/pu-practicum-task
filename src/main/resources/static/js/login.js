@@ -7,7 +7,9 @@ const loginButton = document.getElementById('login');
 const registerButton = document.getElementById('register');
 
 let detachedLoginFormHolder;
-let detachedButtonHolder;
+let detachedRegistrationFormHolder;
+let isRegistrationFormDrawn = false;
+let isLoginFormDetached = false;
 
 const URL = "http://localhost:8080/login";
 
@@ -27,14 +29,38 @@ function setUpLoginFormAction() {
     $(loginButton).click(function () {
         $(loginForm).submit();
     });
-    $(registerButton).click(registerNewUser);
+    $(registerButton).click(showRegistrationForm);
 }
 
 
-function registerNewUser() {
+function showRegistrationForm() {
     detachedLoginFormHolder = detachElement(loginFormHolder);
-    detachedButtonHolder = detachElement(buttonHolder);
-    drawRegistrationForm();
+    isLoginFormDetached = true;
+    if (isRegistrationFormDrawn) {
+        detachedRegistrationFormHolder.appendTo(canvas);
+    } else {
+        drawRegistrationForm();
+    }
+
+    let backToLoginButton = document.getElementById('backToLogIn');
+    backToLoginButton.addEventListener('click', displayLoginForm);
+
+    let createAccountButton = document.getElementById('createAccount');
+    createAccountButton.addEventListener('click', createUserAccount);
+
+}
+
+function displayLoginForm(event) {
+    event.preventDefault();
+    if (isLoginFormDetached) {
+        detachedRegistrationFormHolder = detachElement($('#registrationFormHolder'));
+        detachedLoginFormHolder.appendTo(canvas);
+    }
+
+}
+
+function createUserAccount(event) {
+    event.preventDefault();
 }
 
 
@@ -75,54 +101,64 @@ function detachElement(element) {
 }
 
 function drawRegistrationForm() {
-    $("<form>",
+    $("<div>",
         {
-            id: 'registrationForm'
+            id: 'registrationFormHolder'
         }
     ).addClass('login-form-holder').append(
-        $("<input>",
+        $("<form>",
             {
-                id: 'firstName',
-                type: 'text',
-                placeholder: 'First Name',
-                name: 'firstname',
+                id: 'registrationForm'
             }
-        )
-    ).append(
-        $("<input>",
+        ).addClass('form-basic').append(
+            $("<input>",
+                {
+                    id: 'firstName',
+                    type: 'text',
+                    placeholder: 'First Name',
+                    name: 'firstname',
+                }
+            )
+        ).append(
+            $("<input>",
+                {
+                    id: 'lastName',
+                    type: 'text',
+                    placeholder: 'Last Name',
+                    name: 'lastName',
+                }
+            )
+        ).append(
+            $("<input>",
+                {
+                    id: 'username',
+                    type: 'text',
+                    placeholder: 'Username',
+                    name: 'username',
+                }
+            )
+        ).append(
+            $("<input>",
+                {
+                    id: 'password',
+                    type: 'password',
+                    placeholder: 'Password',
+                    name: 'password',
+                }
+            )
+        ).append($("<div>",
             {
-                id: 'lastName',
-                type: 'text',
-                placeholder: 'Last Name',
-                name: 'lastName',
-            }
-        )
-    ).append(
-        $("<input>",
+                id: 'regFormButtonHolder'
+            }).addClass('button-holder').append($("<button>",
             {
-                id: 'username',
-                type: 'text',
-                placeholder: 'Username',
-                name: 'username',
-            }
-        )
-    ).append(
-        $("<input>",
-            {
-                id: 'password',
-                type: 'password',
-                placeholder: 'Password',
-                name: 'password',
-            }
-        )
-    ).append(
-        $("<button>",
-            {
+                id: 'backToLogIn',
+                text: 'Back'
+            })
+            ).append($("<button>", {
                 id: 'createAccount',
-                type: 'submit',
-                text: 'Create Account'
-            }
+                text: 'Register'
+            }))
         )
-    ).appendTo(canvas)
-        .submit(registerNewUser);
+    ).appendTo(canvas);
+    isRegistrationFormDrawn = true;
 }

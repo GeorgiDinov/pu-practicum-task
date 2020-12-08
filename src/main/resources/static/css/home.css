@@ -21,6 +21,24 @@ body {
     align-items: center;
 }
 
+#logoutButtonHolder {
+    width: 80%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+#logoutButtonHolder button {
+    line-height: 1.75;
+    font-style: normal;
+    background-color: #de619b;
+    color: #fff;
+}
+#welcomeMessage {
+    line-height: 2;
+    font-size: 2rem;
+}
+
 .heading-holder {
     width: 80%;
     flex: 1 1;
@@ -57,6 +75,13 @@ body {
     align-items: center;
 }
 
+.form-basic {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .login-form-holder button {
     min-width: fit-content;
     font-style: normal;
@@ -66,7 +91,7 @@ body {
     border: 2px;
 }
 
-#buttonHolder {
+.button-holder {
     width: 40%;
     display: flex;
     flex-direction: row;

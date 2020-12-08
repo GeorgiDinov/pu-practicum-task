@@ -2,9 +2,19 @@ const URL = "http://localhost:8080/";
 let form = document.getElementById('itemform');
 let items = document.getElementById('items');
 
+let logoutForm = document.getElementById('logoutForm');
+let logoutButton = document.getElementById('logout');
 
+
+logoutButton.addEventListener('click', logout);
 form.addEventListener('submit', addNewItem);
 refreshItemList();
+
+
+function logout(event) {
+    event.preventDefault();
+    logoutForm.submit();
+}
 
 function refreshItemList() {
     items.innerHTML = "";
