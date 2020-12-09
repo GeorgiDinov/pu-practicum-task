@@ -5,9 +5,12 @@ let items = document.getElementById('items');
 let logoutForm = document.getElementById('logoutForm');
 let logoutButton = document.getElementById('logout');
 
+let loggedInUserId;
+let loggedInUsername;
 
 logoutButton.addEventListener('click', logout);
 form.addEventListener('submit', addNewItem);
+getWelcomeInfo();
 refreshItemList();
 
 
@@ -19,6 +22,21 @@ function logout(event) {
 function refreshItemList() {
     items.innerHTML = "";
     loadItemList();
+}
+
+function getWelcomeInfo() {
+    console.log("Inside getWelcomeInfo()");
+    let xmlHttpRequest = new XMLHttpRequest();
+    xmlHttpRequest.open("GET", "/userinfo", true);
+    xmlHttpRequest.onreadystatechange = function () {
+        if (this.readyState === XMLHttpRequest.DONE) {
+            if (this.status === 200) {
+                let welcomeInfo = JSON.parse(this.responseText);
+                console.log(welcomeInfo);
+            }
+        }
+    }
+    xmlHttpRequest.send();
 }
 
 function loadItemList() {

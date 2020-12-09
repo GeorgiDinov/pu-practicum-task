@@ -20,6 +20,7 @@ public class ShoppingListUserDetails implements UserDetails {
     //== constants ==
     private static final boolean TRUE = true;
 
+    //== fields ==
     //---------------------------------------------
     private boolean isAccountNonExpired = TRUE;      //todo figure out how to implement if needed
     private boolean isAccountNonLocked = TRUE;       //todo figure out how to implement if needed
@@ -27,8 +28,8 @@ public class ShoppingListUserDetails implements UserDetails {
     private boolean isEnabled = TRUE;                //todo figure out how to implement if needed
     //---------------------------------------------
 
-    //== fields ==
     private ShoppingListUserCredentials shoppingListUserCredentials;
+    private Long userId;
     private String username;
     private String password;
     private Set<? extends GrantedAuthority> grantedAuthorities;
@@ -36,6 +37,7 @@ public class ShoppingListUserDetails implements UserDetails {
     //== constructors ==
     public ShoppingListUserDetails(ShoppingListUserCredentials shoppingListUserCredentials) {
         this.shoppingListUserCredentials = shoppingListUserCredentials;
+        this.userId = this.shoppingListUserCredentials.getUser().getId();
         this.username = this.shoppingListUserCredentials.getUsername();
         this.password = this.shoppingListUserCredentials.getPassword();
         this.grantedAuthorities = shoppingListUserCredentials.getUserRole().getGrantedAuthorities();

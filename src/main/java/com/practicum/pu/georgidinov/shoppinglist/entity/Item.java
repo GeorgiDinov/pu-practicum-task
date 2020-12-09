@@ -40,8 +40,8 @@ public class Item implements BaseNamedEntity, Serializable {
     @Column(name = "is_selected")
     private boolean isSelected;
 
-    @ManyToOne
-    private ShoppingListUser user;
+    @ManyToOne()
+    private ShoppingListUser shoppingListUser;
 
     @Override
     public Long getId() {

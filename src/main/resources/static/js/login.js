@@ -11,7 +11,7 @@ let detachedRegistrationFormHolder;
 let isRegistrationFormDrawn = false;
 let isLoginFormDetached = false;
 
-const URL = "http://localhost:8080/login";
+const REGISTER_URL = "http://localhost:8080/register";
 
 const METHOD_POST = "POST";
 const METHOD_GET = "GET";
@@ -61,6 +61,33 @@ function displayLoginForm(event) {
 
 function createUserAccount(event) {
     event.preventDefault();
+
+    let userCommand = createUserCommand();
+    let userCommandJSON = JSON.stringify(userCommand);
+    let registerPromise = sendData(REGISTER_URL, METHOD_POST, userCommandJSON);
+    registerPromise.then(console.log);
+    refreshRegistrationForm();
+}
+
+function createUserCommand() {
+    let firstName = document.getElementById('firstName').value;
+    let lastName = document.getElementById('lastName').value;
+    let username = document.getElementById('username').value;
+    let password = document.getElementById('password').value;
+
+    return {
+        "firstName": firstName,
+        "lastName": lastName,
+        "username": username,
+        "password": password
+    };
+}
+
+function refreshRegistrationForm() {
+    document.getElementById('firstName').value = "";
+    document.getElementById('lastName').value = "";
+    document.getElementById('username').value = "";
+    document.getElementById('password').value = "";
 }
 
 
