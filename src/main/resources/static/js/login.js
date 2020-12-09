@@ -6,6 +6,9 @@ const loginForm = document.getElementById('loginForm');
 const loginButton = document.getElementById('login');
 const registerButton = document.getElementById('register');
 
+const userNamePlaceHolder = document.getElementById('user');
+const message = document.getElementById('message');
+
 let detachedLoginFormHolder;
 let detachedRegistrationFormHolder;
 let isRegistrationFormDrawn = false;
@@ -22,10 +25,10 @@ const errorMessage = "Error occurred while doing AJAX to ";
 
 $(document).ready(function () {
     setUpLoginFormAction();
-
 });
 
 function setUpLoginFormAction() {
+    message.innerText = "Login or Register";
     $(loginButton).click(function () {
         $(loginForm).submit();
     });
@@ -52,11 +55,7 @@ function showRegistrationForm() {
 
 function displayLoginForm(event) {
     event.preventDefault();
-    if (isLoginFormDetached) {
-        detachedRegistrationFormHolder = detachElement($('#registrationFormHolder'));
-        detachedLoginFormHolder.appendTo(canvas);
-    }
-
+    redirectToLogin();
 }
 
 function createUserAccount(event) {
@@ -65,8 +64,9 @@ function createUserAccount(event) {
     let userCommand = createUserCommand();
     let userCommandJSON = JSON.stringify(userCommand);
     let registerPromise = sendData(REGISTER_URL, METHOD_POST, userCommandJSON);
-    registerPromise.then(console.log);
     refreshRegistrationForm();
+    registerPromise.then(successfulRegistration);
+    redirectToLogin();
 }
 
 function createUserCommand() {
@@ -83,11 +83,24 @@ function createUserCommand() {
     };
 }
 
+function successfulRegistration(data) {
+    let id = data.id;
+    userNamePlaceHolder.innerText = data.username;
+    message.innerText = "your registration is complete!!!" + "\n Login and create your Shopping List";
+}
+
 function refreshRegistrationForm() {
     document.getElementById('firstName').value = "";
     document.getElementById('lastName').value = "";
     document.getElementById('username').value = "";
     document.getElementById('password').value = "";
+}
+
+function redirectToLogin() {
+    if (isLoginFormDetached) {
+        detachedRegistrationFormHolder = detachElement($('#registrationFormHolder'));
+        detachedLoginFormHolder.appendTo(canvas);
+    }
 }
 
 

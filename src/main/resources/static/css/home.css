@@ -28,12 +28,20 @@ body {
     justify-content: space-between;
     align-items: center;
 }
+
+#user {
+    color: #de619b;
+    font-size: 2rem;
+    font-weight: 500;
+}
+
 #logoutButtonHolder button {
     line-height: 1.75;
     font-style: normal;
     background-color: #de619b;
     color: #fff;
 }
+
 #welcomeMessage {
     line-height: 2;
     font-size: 2rem;

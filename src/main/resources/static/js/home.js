@@ -4,6 +4,7 @@ let items = document.getElementById('items');
 
 let logoutForm = document.getElementById('logoutForm');
 let logoutButton = document.getElementById('logout');
+let userNamePlaceHolder = document.getElementById('user');
 
 let loggedInUserId;
 let loggedInUsername;
@@ -33,6 +34,10 @@ function getWelcomeInfo() {
             if (this.status === 200) {
                 let welcomeInfo = JSON.parse(this.responseText);
                 console.log(welcomeInfo);
+                loggedInUserId = welcomeInfo.id;
+                loggedInUsername = welcomeInfo.username;
+                userNamePlaceHolder.innerText = loggedInUsername;
+                console.log("ID = " + loggedInUserId + " USERNAME = " + loggedInUsername);
             }
         }
     }
