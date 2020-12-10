@@ -1,6 +1,7 @@
 package com.practicum.pu.georgidinov.shoppinglist.restcontroller;
 
 
+import com.practicum.pu.georgidinov.shoppinglist.command.SavedItemCommand;
 import com.practicum.pu.georgidinov.shoppinglist.entity.Item;
 import com.practicum.pu.georgidinov.shoppinglist.exception.ValidationCheckException;
 import com.practicum.pu.georgidinov.shoppinglist.service.ItemService;
@@ -34,7 +35,7 @@ public class ItemController {
     //== public methods ==
     @GetMapping("/{userId}/items")
     @PreAuthorize("hasRole('ROLE_USER')")
-    public List<Item> getAllItems(@PathVariable String userId) {
+    public List<SavedItemCommand> getAllItems(@PathVariable String userId) {
         log.info("ItemController getAllItems() userId = {}", userId);
         return this.itemService.findAllByShoppingUserId(Long.valueOf(userId));
     }

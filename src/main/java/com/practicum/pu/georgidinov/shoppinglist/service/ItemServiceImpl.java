@@ -1,5 +1,6 @@
 package com.practicum.pu.georgidinov.shoppinglist.service;
 
+import com.practicum.pu.georgidinov.shoppinglist.command.SavedItemCommand;
 import com.practicum.pu.georgidinov.shoppinglist.entity.Item;
 import com.practicum.pu.georgidinov.shoppinglist.entity.ShoppingListUser;
 import com.practicum.pu.georgidinov.shoppinglist.exception.ItemNotFoundException;
@@ -11,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -35,12 +37,11 @@ public class ItemServiceImpl implements ItemService {
 
     //== public methods ==
     @Override
-    public List<Item> findAllByShoppingUserId(Long userId) {
+    public List<SavedItemCommand> findAllByShoppingUserId(Long userId) {
         log.info("Find All Items For userId {}", userId);
         ShoppingListUser user = this.getUserById(userId);
         List<Item> items = this.itemRepository.findAllByUserOrderById(user);
-        items.forEach(System.out::println);
-        return items;
+        return this.getItemCommands(items);
     }
 
     @Override
@@ -99,5 +100,18 @@ public class ItemServiceImpl implements ItemService {
         log.info("In getUserById()");
         return this.userRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("User Not Found"));
+    }
+
+    private List<SavedItemCommand> getItemCommands(List<Item> items) {
+        List<SavedItemCommand> savedItemCommands = new ArrayList<>();
+        items.forEach(item ->
+                savedItemCommands.add(SavedItemCommand.builder()
+                        .id(item.getId())
+                        .name(item.getName())
+                        .quantity(item.getQuantity())
+                        .isSelected(item.isSelected())
+                        .build())
+        );
+        return savedItemCommands;
     }
 }

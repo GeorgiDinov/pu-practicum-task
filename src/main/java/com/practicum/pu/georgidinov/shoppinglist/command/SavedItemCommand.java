@@ -13,6 +13,7 @@ import lombok.Setter;
 @Builder
 public class SavedItemCommand {
     private Long id;
-    private String itemName;
+    private String name;
     private int quantity;
+    private boolean isSelected;
 }

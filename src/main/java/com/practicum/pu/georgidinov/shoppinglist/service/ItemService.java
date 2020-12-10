@@ -1,5 +1,6 @@
 package com.practicum.pu.georgidinov.shoppinglist.service;
 
+import com.practicum.pu.georgidinov.shoppinglist.command.SavedItemCommand;
 import com.practicum.pu.georgidinov.shoppinglist.entity.Item;
 import com.practicum.pu.georgidinov.shoppinglist.exception.ValidationCheckException;
 
@@ -9,7 +10,7 @@ public interface ItemService {
 
     List<Item> findAllItems();
 
-    List<Item> findAllByShoppingUserId(Long userId);
+    List<SavedItemCommand> findAllByShoppingUserId(Long userId);
 
     public Item findById(Long id);
 

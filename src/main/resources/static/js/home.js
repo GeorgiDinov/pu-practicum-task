@@ -35,9 +35,9 @@ function getRegisteredUserCommand() {
     xmlHttpRequest.onreadystatechange = function () {
         if (this.readyState === XMLHttpRequest.DONE) {
             if (this.status === 200) {
-                let welcomeInfo = JSON.parse(this.responseText);
-                loggedInUserId = welcomeInfo.id;
-                loggedInUsername = welcomeInfo.username;
+                let registeredUserCommand = JSON.parse(this.responseText);
+                loggedInUserId = registeredUserCommand.id;
+                loggedInUsername = registeredUserCommand.username;
                 userNamePlaceHolder.innerText = " " + loggedInUsername;
                 refreshItemList();
             }
