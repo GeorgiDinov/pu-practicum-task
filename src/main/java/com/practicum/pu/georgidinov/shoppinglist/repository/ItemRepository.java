@@ -10,8 +10,6 @@ import java.util.List;
 @Repository
 public interface ItemRepository extends CrudRepository<Item, Long> {
 
-    List<Item> findAllByOrderById();
-
     List<Item> findAllByUserOrderById(ShoppingListUser user);
 
 }

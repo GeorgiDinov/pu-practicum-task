@@ -1,23 +1,21 @@
 package com.practicum.pu.georgidinov.shoppinglist.service;
 
+import com.practicum.pu.georgidinov.shoppinglist.command.ItemCommand;
 import com.practicum.pu.georgidinov.shoppinglist.command.SavedItemCommand;
-import com.practicum.pu.georgidinov.shoppinglist.entity.Item;
 import com.practicum.pu.georgidinov.shoppinglist.exception.ValidationCheckException;
 
 import java.util.List;
 
 public interface ItemService {
 
-    List<Item> findAllItems();
-
     List<SavedItemCommand> findAllByShoppingUserId(Long userId);
 
-    public Item findById(Long id);
+    public SavedItemCommand findById(Long itemCommandId);
 
-    public Item save(Long userId, Item item);
+    public SavedItemCommand save(Long userId, ItemCommand itemCommand);
 
-    public void deleteById(Long id);
+    public void deleteById(Long itemCommandId);
 
-    public Item changeItemState(Item item, Long id) throws ValidationCheckException;
+    public SavedItemCommand changeItemState(ItemCommand itemCommand, Long itemCommandId) throws ValidationCheckException;
 
 }

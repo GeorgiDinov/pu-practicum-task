@@ -1,8 +1,8 @@
 package com.practicum.pu.georgidinov.shoppinglist.restcontroller;
 
 
+import com.practicum.pu.georgidinov.shoppinglist.command.ItemCommand;
 import com.practicum.pu.georgidinov.shoppinglist.command.SavedItemCommand;
-import com.practicum.pu.georgidinov.shoppinglist.entity.Item;
 import com.practicum.pu.georgidinov.shoppinglist.exception.ValidationCheckException;
 import com.practicum.pu.georgidinov.shoppinglist.service.ItemService;
 import lombok.extern.slf4j.Slf4j;
@@ -40,37 +40,37 @@ public class ItemController {
         return this.itemService.findAllByShoppingUserId(Long.valueOf(userId));
     }
 
-    @GetMapping("/items/{itemId}")
+    @GetMapping("/items/{itemCommandId}")
     @PreAuthorize("hasAuthority('item:read')")
-    public Item getItemById(@PathVariable String itemId) {
+    public SavedItemCommand getSavedItemCommandById(@PathVariable String itemCommandId) {
         log.info("ItemController getItemById()");
-        log.info("itemId value passed = {}", itemId);
-        return this.itemService.findById(Long.valueOf(itemId));
+        log.info("itemCommandId value passed = {}", itemCommandId);
+        return this.itemService.findById(Long.valueOf(itemCommandId));
     }
 
-    @DeleteMapping("/items/{itemId}")
+    @DeleteMapping("/items/{itemCommandId}")
     @PreAuthorize("hasAuthority('item:write')")
-    public void deleteItemById(@PathVariable String itemId) {
+    public void deleteItemById(@PathVariable String itemCommandId) {
         log.info("ItemController deleteItemById()");
-        log.info("itemId value passed = {}", itemId);
-        this.itemService.deleteById(Long.valueOf(itemId));
+        log.info("itemId value passed = {}", itemCommandId);
+        this.itemService.deleteById(Long.valueOf(itemCommandId));
     }
 
-    @PutMapping("/items/{itemId}")
+    @PutMapping("/items/{itemCommandId}")
     @PreAuthorize("hasAuthority('item:write')")
-    public Item changeItemState(@RequestBody Item itemToUpdate,
-                                @PathVariable String itemId) throws ValidationCheckException {
+    public SavedItemCommand changeItemState(@RequestBody ItemCommand itemCommandToUpdate,
+                                @PathVariable String itemCommandId) throws ValidationCheckException {
         log.info("ItemController changeItemState(Item itemToUpdate, String itemId)");
-        log.info("itemId value passed = {}", itemId);
-        return this.itemService.changeItemState(itemToUpdate, Long.valueOf(itemId));
+        log.info("itemId value passed = {}", itemCommandId);
+        return this.itemService.changeItemState(itemCommandToUpdate, Long.valueOf(itemCommandId));
     }
 
     @PostMapping("/{userId}/items/newItem")
     @PreAuthorize("hasAuthority('item:write')")
-    public Item addNewItem(@RequestBody Item item,
+    public SavedItemCommand addNewItem(@RequestBody ItemCommand itemCommand,
                            @PathVariable String userId) {
         log.info("ItemController addNewItem()");
-        log.info("userId passed = {}, item passed = {}", userId, item);
-        return this.itemService.save(Long.valueOf(userId), item);
+        log.info("userId passed = {}, item passed = {}", userId, itemCommand);
+        return this.itemService.save(Long.valueOf(userId), itemCommand);
     }
 }
