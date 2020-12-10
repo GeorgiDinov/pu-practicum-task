@@ -1,7 +1,3 @@
-const URL = "http://localhost:8080/";
-const URL_ITEMS = "/items"
-const URL_NEW_ITEM = "/newItem";
-
 let form = document.getElementById('itemform');
 let items = document.getElementById('items');
 
@@ -9,13 +5,17 @@ let logoutForm = document.getElementById('logoutForm');
 let logoutButton = document.getElementById('logout');
 let userNamePlaceHolder = document.getElementById('user');
 
-let loggedInUserId;
-let loggedInUsername;
+let loggedInUserId = "";
+let loggedInUsername = "";
+
+const URL = "http://localhost:8080/";
+const URL_ITEMS = "/items"
+const URL_NEW_ITEM = "/newItem";
 
 logoutButton.addEventListener('click', logout);
 form.addEventListener('submit', addNewItem);
 getRegisteredUserCommand();
-refreshItemList();
+
 
 
 function logout(event) {
@@ -36,9 +36,10 @@ function getRegisteredUserCommand() {
         if (this.readyState === XMLHttpRequest.DONE) {
             if (this.status === 200) {
                 let welcomeInfo = JSON.parse(this.responseText);
-                loggedInUserId = "/" + welcomeInfo.id;
+                loggedInUserId = welcomeInfo.id;
                 loggedInUsername = welcomeInfo.username;
                 userNamePlaceHolder.innerText = " " + loggedInUsername;
+                refreshItemList();
             }
         }
     }
@@ -47,12 +48,14 @@ function getRegisteredUserCommand() {
 
 function loadItemList() {
     console.log("Inside loadItems()");
+    let userId = "/" + loggedInUserId;
     let xmlHttpRequest = new XMLHttpRequest();
-    xmlHttpRequest.open("GET", URL_ITEMS, true);
+    xmlHttpRequest.open("GET", userId + URL_ITEMS, true);
     xmlHttpRequest.onreadystatechange = function () {
         if (this.readyState === XMLHttpRequest.DONE) {
             if (this.status === 200) {
                 let items = JSON.parse(this.responseText);
+                console.log(items);
                 for (let i = 0; i < items.length; i++) {
                     createNewItem(items[i]);
                 }
@@ -72,7 +75,8 @@ function addNewItem(event) {
     let newItem = JSON.stringify({"name": itemName, "quantity": quantity});
 
     let xmlHttpRequest = new XMLHttpRequest();
-    let url = URL_ITEMS + URL_NEW_ITEM;
+    let userId = "/" + loggedInUserId;
+    let url = userId + URL_ITEMS + URL_NEW_ITEM;
     xmlHttpRequest.open("POST", url, true);
     xmlHttpRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     xmlHttpRequest.onreadystatechange = function () {

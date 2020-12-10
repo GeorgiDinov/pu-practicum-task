@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -15,7 +16,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import java.util.Objects;
 
 @Getter
@@ -24,17 +27,20 @@ import java.util.Objects;
 @AllArgsConstructor
 @Builder
 @Entity
+@Table(name = "user_credentials")
 public class ShoppingListUserCredentials {
 
     // == fields ==
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_credentials_id")
     private Long id;
 
     private String username;
     private String password;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
     private ShoppingListUser user;
 
     @Enumerated(value = EnumType.STRING)
@@ -76,7 +82,6 @@ public class ShoppingListUserCredentials {
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
-                ", user=" + user +
                 ", userRole=" + userRole +
                 '}';
     }

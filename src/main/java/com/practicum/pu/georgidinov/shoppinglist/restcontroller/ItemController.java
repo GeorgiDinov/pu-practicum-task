@@ -13,14 +13,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/items")
 public class ItemController {
 
     //== fields ==
@@ -34,42 +32,44 @@ public class ItemController {
 
 
     //== public methods ==
-    @GetMapping()
+    @GetMapping("/{userId}/items")
     @PreAuthorize("hasRole('ROLE_USER')")
-    public List<Item> getAllItems() {
-        log.info("ItemController getAllItems()");
-        return this.itemService.findAllItems();
+    public List<Item> getAllItems(@PathVariable String userId) {
+        log.info("ItemController getAllItems() userId = {}", userId);
+        return this.itemService.findAllByShoppingUserId(Long.valueOf(userId));
     }
 
-    @GetMapping("/{itemId}")
+    @GetMapping("/items/{itemId}")
     @PreAuthorize("hasAuthority('item:read')")
     public Item getItemById(@PathVariable String itemId) {
         log.info("ItemController getItemById()");
-        log.info("id value passed = {}", itemId);
+        log.info("itemId value passed = {}", itemId);
         return this.itemService.findById(Long.valueOf(itemId));
     }
 
-    @DeleteMapping("/{itemId}")
+    @DeleteMapping("/items/{itemId}")
     @PreAuthorize("hasAuthority('item:write')")
     public void deleteItemById(@PathVariable String itemId) {
         log.info("ItemController deleteItemById()");
-        log.info("id value passed = {}", itemId);
+        log.info("itemId value passed = {}", itemId);
         this.itemService.deleteById(Long.valueOf(itemId));
     }
 
-    @PutMapping("/{itemId}")
+    @PutMapping("/items/{itemId}")
     @PreAuthorize("hasAuthority('item:write')")
-    public Item changeItemState(@RequestBody Item itemToUpdate, @PathVariable String itemId) throws ValidationCheckException {
+    public Item changeItemState(@RequestBody Item itemToUpdate,
+                                @PathVariable String itemId) throws ValidationCheckException {
         log.info("ItemController changeItemState(Item itemToUpdate, String itemId)");
-        log.info("id value passed = {}", itemId);
+        log.info("itemId value passed = {}", itemId);
         return this.itemService.changeItemState(itemToUpdate, Long.valueOf(itemId));
     }
 
-    @PostMapping("/newItem")
+    @PostMapping("/{userId}/items/newItem")
     @PreAuthorize("hasAuthority('item:write')")
-    public Item addNewItem(@RequestBody Item item) {
+    public Item addNewItem(@RequestBody Item item,
+                           @PathVariable String userId) {
         log.info("ItemController addNewItem()");
-        log.info("item passed = {}", item);
-        return this.itemService.save(item);
+        log.info("userId passed = {}, item passed = {}", userId, item);
+        return this.itemService.save(Long.valueOf(userId), item);
     }
 }

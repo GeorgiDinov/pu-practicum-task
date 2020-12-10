@@ -9,10 +9,11 @@ public interface ItemService {
 
     List<Item> findAllItems();
 
+    List<Item> findAllByShoppingUserId(Long userId);
 
     public Item findById(Long id);
 
-    public Item save(Item item);
+    public Item save(Long userId, Item item);
 
     public void deleteById(Long id);
 

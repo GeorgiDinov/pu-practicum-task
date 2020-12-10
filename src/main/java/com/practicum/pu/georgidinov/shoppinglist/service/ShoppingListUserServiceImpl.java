@@ -39,9 +39,9 @@ public class ShoppingListUserServiceImpl implements ShoppingListUserService {
         log.info("ShoppingListUserServiceImpl save(), DTO Passed = {}", userCommand);
         ShoppingListUser newUser = this.createUserFromUserCommand(userCommand);
         ShoppingListUser savedUser = this.userRepository.save(newUser);
-        log.info("ShoppingListUserServiceImpl save() savedUser data = {} ", savedUser.getCredentials());
+        log.info("ShoppingListUserServiceImpl save() savedUser data = {} ", savedUser.getUserCredentials());
         RegisteredUserCommand registeredUserCommand = RegisteredUserCommand.builder()
-                .username(savedUser.getCredentials().getUsername())
+                .username(savedUser.getUserCredentials().getUsername())
                 .id(savedUser.getId()).build();
         log.info("ShoppingListUserServiceImpl save() Command Returned = {}", registeredUserCommand);
         return registeredUserCommand;
@@ -69,7 +69,7 @@ public class ShoppingListUserServiceImpl implements ShoppingListUserService {
         ShoppingListUser user = ShoppingListUser.builder()
                 .firstName(userCommand.getFirstName())
                 .lastName(userCommand.getLastName())
-                .credentials(userCredentials).build();
+                .userCredentials(userCredentials).build();
 
         userCredentials.setUser(user);
 
