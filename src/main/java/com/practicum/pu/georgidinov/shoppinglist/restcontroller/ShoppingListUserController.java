@@ -1,12 +1,11 @@
 package com.practicum.pu.georgidinov.shoppinglist.restcontroller;
 
 
+import com.practicum.pu.georgidinov.shoppinglist.command.RegisteredUserCommand;
 import com.practicum.pu.georgidinov.shoppinglist.command.UserCommand;
-import com.practicum.pu.georgidinov.shoppinglist.command.WelcomeInfoCommand;
 import com.practicum.pu.georgidinov.shoppinglist.service.ShoppingListUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,13 +26,18 @@ public class ShoppingListUserController {
 
     //== public methods ==
     @PostMapping("/register")
-    public WelcomeInfoCommand register(@RequestBody UserCommand userCommand) {
-        log.info("ShoppingListUserController register method DTO = {}", userCommand);
-        return this.userService.save(userCommand);
+    public RegisteredUserCommand register(@RequestBody UserCommand userCommand) {
+        log.info("ShoppingListUserController register() DTO Passed = {}", userCommand);
+        RegisteredUserCommand command = this.userService.save(userCommand);
+        log.info("ShoppingListUserController register() Command Returned = {}", command);
+        return command;
     }
 
     @GetMapping("/userinfo")
-    public WelcomeInfoCommand welcomeInfo(Authentication authentication) {
-        return this.userService.welcomeInfo(authentication);
+    public RegisteredUserCommand getRegisteredUserCommand() {
+        log.info("ShoppingListUserController getRegisteredUserCommand()");
+        RegisteredUserCommand command = this.userService.getRegisteredUserCommand();
+        log.info("ShoppingListUserController getRegisteredUserCommand() Command Returned = {}", command);
+        return command;
     }
 }

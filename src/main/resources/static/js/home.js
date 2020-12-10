@@ -1,4 +1,7 @@
 const URL = "http://localhost:8080/";
+const URL_ITEMS = "/items"
+const URL_NEW_ITEM = "/newItem";
+
 let form = document.getElementById('itemform');
 let items = document.getElementById('items');
 
@@ -11,7 +14,7 @@ let loggedInUsername;
 
 logoutButton.addEventListener('click', logout);
 form.addEventListener('submit', addNewItem);
-getWelcomeInfo();
+getRegisteredUserCommand();
 refreshItemList();
 
 
@@ -25,7 +28,7 @@ function refreshItemList() {
     loadItemList();
 }
 
-function getWelcomeInfo() {
+function getRegisteredUserCommand() {
     console.log("Inside getWelcomeInfo()");
     let xmlHttpRequest = new XMLHttpRequest();
     xmlHttpRequest.open("GET", "/userinfo", true);
@@ -33,11 +36,9 @@ function getWelcomeInfo() {
         if (this.readyState === XMLHttpRequest.DONE) {
             if (this.status === 200) {
                 let welcomeInfo = JSON.parse(this.responseText);
-                console.log(welcomeInfo);
-                loggedInUserId = welcomeInfo.id;
+                loggedInUserId = "/" + welcomeInfo.id;
                 loggedInUsername = welcomeInfo.username;
-                userNamePlaceHolder.innerText = loggedInUsername;
-                console.log("ID = " + loggedInUserId + " USERNAME = " + loggedInUsername);
+                userNamePlaceHolder.innerText = " " + loggedInUsername;
             }
         }
     }
@@ -47,7 +48,7 @@ function getWelcomeInfo() {
 function loadItemList() {
     console.log("Inside loadItems()");
     let xmlHttpRequest = new XMLHttpRequest();
-    xmlHttpRequest.open("GET", "/items", true);
+    xmlHttpRequest.open("GET", URL_ITEMS, true);
     xmlHttpRequest.onreadystatechange = function () {
         if (this.readyState === XMLHttpRequest.DONE) {
             if (this.status === 200) {
@@ -71,7 +72,7 @@ function addNewItem(event) {
     let newItem = JSON.stringify({"name": itemName, "quantity": quantity});
 
     let xmlHttpRequest = new XMLHttpRequest();
-    let url = "/items/newItem";
+    let url = URL_ITEMS + URL_NEW_ITEM;
     xmlHttpRequest.open("POST", url, true);
     xmlHttpRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     xmlHttpRequest.onreadystatechange = function () {
@@ -109,9 +110,10 @@ function manipulateItem(event) {
 }
 
 function deleteItemById(item) {
+    let itemId = "/" + item.id;
     let deleted = false;
     let xmlHttpRequest = new XMLHttpRequest();
-    xmlHttpRequest.open("DELETE", "/items/" + item.id, true);
+    xmlHttpRequest.open("DELETE", URL_ITEMS + itemId, true);
     xmlHttpRequest.onreadystatechange = function () {
         if (!deleted) {
             if (this.status === 200) {
@@ -126,11 +128,12 @@ function deleteItemById(item) {
 }
 
 function changeItemSelectionState(item) {
+    let itemId = "/" + item.id;
     let isSelected = false;
     let itemToUpdate = extractItemJSON(item);
 
     let xmlHttpRequest = new XMLHttpRequest();
-    xmlHttpRequest.open("PUT", "/items/" + item.id, true);
+    xmlHttpRequest.open("PUT", URL_ITEMS + itemId, true);
     xmlHttpRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     xmlHttpRequest.onreadystatechange = function () {
         if (!isSelected) {

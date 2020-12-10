@@ -40,6 +40,8 @@ public class ShoppingListUserCredentials {
     @Enumerated(value = EnumType.STRING)
     private ShoppingListUserRole userRole;
 
+
+    //== public methods ==
     @Override
     public boolean equals(Object o) {
         if (this == o) {

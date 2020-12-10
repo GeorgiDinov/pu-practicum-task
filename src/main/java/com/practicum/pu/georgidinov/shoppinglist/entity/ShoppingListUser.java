@@ -39,6 +39,8 @@ public class ShoppingListUser {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "shoppingListUser")
     private Set<Item> items = new HashSet<>();
 
+
+    //==public methods ==
     @Override
     public boolean equals(Object o) {
         if (this == o) {

@@ -13,8 +13,9 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @Builder
-public class WelcomeInfoCommand {
+public class RegisteredUserCommand {
 
     private Long id;
     private String username;
+
 }

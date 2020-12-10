@@ -1,14 +1,15 @@
 package com.practicum.pu.georgidinov.shoppinglist.service;
 
 import com.practicum.pu.georgidinov.shoppinglist.auth.ShoppingListUserDetails;
+import com.practicum.pu.georgidinov.shoppinglist.command.RegisteredUserCommand;
 import com.practicum.pu.georgidinov.shoppinglist.command.UserCommand;
-import com.practicum.pu.georgidinov.shoppinglist.command.WelcomeInfoCommand;
 import com.practicum.pu.georgidinov.shoppinglist.entity.ShoppingListUser;
 import com.practicum.pu.georgidinov.shoppinglist.entity.ShoppingListUserCredentials;
 import com.practicum.pu.georgidinov.shoppinglist.repository.ShoppingListUserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -33,30 +34,33 @@ public class ShoppingListUserServiceImpl implements ShoppingListUserService {
 
     //== public methods ==
     @Override
-    public WelcomeInfoCommand save(UserCommand userCommand) {
-        log.info("inside shopping list user service save, DTO = {}", userCommand);
+    public RegisteredUserCommand save(UserCommand userCommand) {
+        //todo userCommand verification
+        log.info("ShoppingListUserServiceImpl save(), DTO Passed = {}", userCommand);
         ShoppingListUser newUser = this.createUserFromUserCommand(userCommand);
         ShoppingListUser savedUser = this.userRepository.save(newUser);
-        WelcomeInfoCommand welcomeInfoCommand = WelcomeInfoCommand.builder()
+        log.info("ShoppingListUserServiceImpl save() savedUser data = {} ", savedUser.getCredentials());
+        RegisteredUserCommand registeredUserCommand = RegisteredUserCommand.builder()
                 .username(savedUser.getCredentials().getUsername())
                 .id(savedUser.getId()).build();
-        log.info("user service save() welcomeInfoCommand = {}", welcomeInfoCommand);
-        return welcomeInfoCommand;
+        log.info("ShoppingListUserServiceImpl save() Command Returned = {}", registeredUserCommand);
+        return registeredUserCommand;
     }
 
     @Override
-    public WelcomeInfoCommand welcomeInfo(Authentication authentication) {
+    public RegisteredUserCommand getRegisteredUserCommand() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         ShoppingListUserDetails loggedInUserDetails = (ShoppingListUserDetails) authentication.getPrincipal();
-        WelcomeInfoCommand welcomeInfoCommand = WelcomeInfoCommand.builder()
+        RegisteredUserCommand registeredUserCommand = RegisteredUserCommand.builder()
                 .username(loggedInUserDetails.getUsername())
                 .id(loggedInUserDetails.getUserId()).build();
-        log.info("user service welcomeInfo welcomeInfoCommand = {}", welcomeInfoCommand);
-        return welcomeInfoCommand;
+        log.info("ShoppingListUserServiceImpl getRegisteredUserCommand() Command Returned = {}", registeredUserCommand);
+        return registeredUserCommand;
     }
+
 
     //== private methods ==
     private ShoppingListUser createUserFromUserCommand(UserCommand userCommand) {
-
         ShoppingListUserCredentials userCredentials = ShoppingListUserCredentials.builder()
                 .username(userCommand.getUsername())
                 .password(passwordEncoder.encode(userCommand.getPassword()))
@@ -68,6 +72,9 @@ public class ShoppingListUserServiceImpl implements ShoppingListUserService {
                 .credentials(userCredentials).build();
 
         userCredentials.setUser(user);
+
+        log.info("New UserCredentials Created -> {}", userCredentials);
+        log.info("New User Created -> {}", user);
         return user;
     }
 

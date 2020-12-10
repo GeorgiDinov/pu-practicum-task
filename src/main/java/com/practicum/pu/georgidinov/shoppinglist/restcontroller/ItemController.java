@@ -32,7 +32,6 @@ public class ItemController {
         this.itemService = itemService;
     }
 
-//    hasRole('ROLE_') hasAnyRole('ROLE_') hasAuthority('permission') hasAnyAuthority('permission')
 
     //== public methods ==
     @GetMapping()
@@ -43,8 +42,7 @@ public class ItemController {
     }
 
     @GetMapping("/{itemId}")
-//    @PreAuthorize("hasAuthority('item:read')")
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasAuthority('item:read')")
     public Item getItemById(@PathVariable String itemId) {
         log.info("ItemController getItemById()");
         log.info("id value passed = {}", itemId);
@@ -52,8 +50,7 @@ public class ItemController {
     }
 
     @DeleteMapping("/{itemId}")
-//    @PreAuthorize("hasAuthority('item:write')")
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasAuthority('item:write')")
     public void deleteItemById(@PathVariable String itemId) {
         log.info("ItemController deleteItemById()");
         log.info("id value passed = {}", itemId);
@@ -61,8 +58,7 @@ public class ItemController {
     }
 
     @PutMapping("/{itemId}")
-//    @PreAuthorize("hasAuthority('item:write')")
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasAuthority('item:write')")
     public Item changeItemState(@RequestBody Item itemToUpdate, @PathVariable String itemId) throws ValidationCheckException {
         log.info("ItemController changeItemState(Item itemToUpdate, String itemId)");
         log.info("id value passed = {}", itemId);
@@ -70,8 +66,7 @@ public class ItemController {
     }
 
     @PostMapping("/newItem")
-//    @PreAuthorize("hasAuthority('item:write')")
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasAuthority('item:write')")
     public Item addNewItem(@RequestBody Item item) {
         log.info("ItemController addNewItem()");
         log.info("item passed = {}", item);
