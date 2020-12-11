@@ -12,6 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -27,7 +29,7 @@ public class Item implements BaseNamedEntity, Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "item_id")
     private Long id;
 
     @Column(name = "name")
@@ -38,6 +40,10 @@ public class Item implements BaseNamedEntity, Serializable {
 
     @Column(name = "is_selected")
     private boolean isSelected;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private ShoppingListUser user;
 
     @Override
     public Long getId() {
