@@ -8,14 +8,16 @@ public final class ApplicationConstants {
 
     //== View Names ==
     public static final String VIEW_NAME_HOME_PAGE = "home";
+    public static final String VIEW_NAME_LOGIN_PAGE = "login";
 
     //== Mapping Names ==
     public static final String HOME_PAGE_MAPPING_DEFAULT = "";
     public static final String HOME_PAGE_MAPPING_SLASH = "/";
-    public static final String HOME_PAGE_MAPPING_HOME = "home";
-    public static final String HOME_PAGE_MAPPING_HOME_HTML = "home.html";
-    public static final String HOME_PAGE_MAPPING_INDEX = "index";
-    public static final String HOME_PAGE_MAPPING_INDEX_HTML = "index.html";
+    public static final String HOME_PAGE_MAPPING_HOME = "/home";
+    public static final String HOME_PAGE_MAPPING_HOME_HTML = "/home.html";
+    public static final String HOME_PAGE_MAPPING_INDEX = "/index";
+    public static final String HOME_PAGE_MAPPING_INDEX_HTML = "/index.html";
+    public static final String LOGIN_PAGE_MAPPING_LOGIN = "/login";
 
     //== Error Messages ==
     public static final String VALIDATION_ERROR_ENTITY_IS_NULL = "Entity Validation Error Entity Is Null";

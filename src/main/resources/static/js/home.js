@@ -1,20 +1,61 @@
 let form = document.getElementById('itemform');
 let items = document.getElementById('items');
+
+let logoutForm = document.getElementById('logoutForm');
+let logoutButton = document.getElementById('logout');
+let userNamePlaceHolder = document.getElementById('user');
+
+let loggedInUserId = "";
+let loggedInUsername = "";
+
+const URL = "http://localhost:8080/";
+const URL_ITEMS = "/items"
+const URL_NEW_ITEM = "/newItem";
+
+logoutButton.addEventListener('click', logout);
 form.addEventListener('submit', addNewItem);
-refreshItemList();
+getRegisteredUserCommand();
+
+
+
+function logout(event) {
+    event.preventDefault();
+    logoutForm.submit();
+}
 
 function refreshItemList() {
     items.innerHTML = "";
     loadItemList();
 }
 
-function loadItemList() {
+function getRegisteredUserCommand() {
+    console.log("Inside getWelcomeInfo()");
     let xmlHttpRequest = new XMLHttpRequest();
-    xmlHttpRequest.open("GET", "/items", true);
+    xmlHttpRequest.open("GET", "/userinfo", true);
+    xmlHttpRequest.onreadystatechange = function () {
+        if (this.readyState === XMLHttpRequest.DONE) {
+            if (this.status === 200) {
+                let registeredUserCommand = JSON.parse(this.responseText);
+                loggedInUserId = registeredUserCommand.id;
+                loggedInUsername = registeredUserCommand.username;
+                userNamePlaceHolder.innerText = " " + loggedInUsername;
+                refreshItemList();
+            }
+        }
+    }
+    xmlHttpRequest.send();
+}
+
+function loadItemList() {
+    console.log("Inside loadItems()");
+    let userId = "/" + loggedInUserId;
+    let xmlHttpRequest = new XMLHttpRequest();
+    xmlHttpRequest.open("GET", userId + URL_ITEMS, true);
     xmlHttpRequest.onreadystatechange = function () {
         if (this.readyState === XMLHttpRequest.DONE) {
             if (this.status === 200) {
                 let items = JSON.parse(this.responseText);
+                console.log(items);
                 for (let i = 0; i < items.length; i++) {
                     createNewItem(items[i]);
                 }
@@ -25,6 +66,7 @@ function loadItemList() {
 }
 
 function addNewItem(event) {
+    console.log("Inside addNewItem()");
     let itemName = document.getElementById('itemname').value;
     let quantity = document.getElementById('itemquantity').value;
     document.getElementById('itemname').value = "";
@@ -33,7 +75,8 @@ function addNewItem(event) {
     let newItem = JSON.stringify({"name": itemName, "quantity": quantity});
 
     let xmlHttpRequest = new XMLHttpRequest();
-    let url = "/items/newItem";
+    let userId = "/" + loggedInUserId;
+    let url = userId + URL_ITEMS + URL_NEW_ITEM;
     xmlHttpRequest.open("POST", url, true);
     xmlHttpRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     xmlHttpRequest.onreadystatechange = function () {
@@ -71,9 +114,10 @@ function manipulateItem(event) {
 }
 
 function deleteItemById(item) {
+    let itemId = "/" + item.id;
     let deleted = false;
     let xmlHttpRequest = new XMLHttpRequest();
-    xmlHttpRequest.open("DELETE", "/items/" + item.id, true);
+    xmlHttpRequest.open("DELETE", URL_ITEMS + itemId, true);
     xmlHttpRequest.onreadystatechange = function () {
         if (!deleted) {
             if (this.status === 200) {
@@ -88,11 +132,12 @@ function deleteItemById(item) {
 }
 
 function changeItemSelectionState(item) {
+    let itemId = "/" + item.id;
     let isSelected = false;
     let itemToUpdate = extractItemJSON(item);
 
     let xmlHttpRequest = new XMLHttpRequest();
-    xmlHttpRequest.open("PUT", "/items/" + item.id, true);
+    xmlHttpRequest.open("PUT", URL_ITEMS + itemId, true);
     xmlHttpRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     xmlHttpRequest.onreadystatechange = function () {
         if (!isSelected) {
@@ -146,16 +191,3 @@ function deleteItemErrorMessage(item) {
     item.classList.remove("cross");
     //todo implementation
 }
-
-// function makeOptionFontWeightLighter() {
-//     let options = document.getElementsByTagName('option');
-//     console.log(options);
-//     for (let i = 0; i < options.length; i++) {
-//         let optionText = options[i].innerText;
-//         optionText = "One"
-//         options[i].innerText = optionText;
-//         console.log(optionText);
-//     }
-// }
-//
-// makeOptionFontWeightLighter();
