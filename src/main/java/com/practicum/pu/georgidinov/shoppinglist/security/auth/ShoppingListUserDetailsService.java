@@ -1,4 +1,4 @@
-package com.practicum.pu.georgidinov.shoppinglist.auth;
+package com.practicum.pu.georgidinov.shoppinglist.security.auth;
 
 import com.practicum.pu.georgidinov.shoppinglist.entity.ShoppingListUserCredentials;
 import com.practicum.pu.georgidinov.shoppinglist.repository.ShoppingListUserCredentialsRepository;

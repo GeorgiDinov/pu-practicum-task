@@ -1,6 +1,6 @@
 package com.practicum.pu.georgidinov.shoppinglist.security;
 
-import com.practicum.pu.georgidinov.shoppinglist.auth.ShoppingListUserDetailsService;
+import com.practicum.pu.georgidinov.shoppinglist.security.auth.ShoppingListUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

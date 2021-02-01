@@ -3,9 +3,11 @@ package com.practicum.pu.georgidinov.shoppinglist.entity;
 import com.practicum.pu.georgidinov.shoppinglist.security.ShoppingListUserRole;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -19,10 +21,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import java.util.Objects;
 
 @Getter
 @Setter
+@EqualsAndHashCode
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -46,43 +49,4 @@ public class ShoppingListUserCredentials {
     @Enumerated(value = EnumType.STRING)
     private ShoppingListUserRole userRole;
 
-
-    //== public methods ==
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof ShoppingListUserCredentials)) {
-            return false;
-        }
-
-        ShoppingListUserCredentials that = (ShoppingListUserCredentials) o;
-
-        if (!id.equals(that.id)) {
-            return false;
-        }
-        if (!Objects.equals(username, that.username)) {
-            return false;
-        }
-        return password.equals(that.password);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + (username != null ? username.hashCode() : 0);
-        result = 31 * result + password.hashCode();
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return "ShoppingListUserCredentials{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", userRole=" + userRole +
-                '}';
-    }
 }

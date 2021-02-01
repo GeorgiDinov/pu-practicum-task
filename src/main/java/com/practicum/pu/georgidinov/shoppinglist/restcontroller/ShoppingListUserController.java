@@ -6,9 +6,10 @@ import com.practicum.pu.georgidinov.shoppinglist.command.UserCommand;
 import com.practicum.pu.georgidinov.shoppinglist.service.ShoppingListUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
@@ -26,6 +27,7 @@ public class ShoppingListUserController {
 
     //== public methods ==
     @PostMapping("/register")
+    @ResponseStatus(HttpStatus.CREATED)
     public RegisteredUserCommand register(@RequestBody UserCommand userCommand) {
         log.info("ShoppingListUserController register() DTO Passed = {}", userCommand);
         RegisteredUserCommand command = this.userService.save(userCommand);
@@ -33,11 +35,4 @@ public class ShoppingListUserController {
         return command;
     }
 
-    @GetMapping("/userinfo")
-    public RegisteredUserCommand getRegisteredUserCommand() {
-        log.info("ShoppingListUserController getRegisteredUserCommand()");
-        RegisteredUserCommand command = this.userService.getRegisteredUserCommand();
-        log.info("ShoppingListUserController getRegisteredUserCommand() Command Returned = {}", command);
-        return command;
-    }
 }
