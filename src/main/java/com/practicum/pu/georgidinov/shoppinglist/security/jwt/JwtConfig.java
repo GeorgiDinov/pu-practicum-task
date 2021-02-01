@@ -24,7 +24,7 @@ public class JwtConfig {
     private String tokenPrefix;
 
     @Value("${application.jwt.tokenExpirationAfterDays:5}")
-    private String tokenExpirationAfterDays;
+    private Long tokenExpirationAfterDays;
 
 
     //== bean methods ==
@@ -41,7 +41,7 @@ public class JwtConfig {
 
     @Bean
     @TokenExpirationAfterDays
-    public String tokenExpirationAfterDays() {
+    public Long tokenExpirationAfterDays() {
         return this.tokenExpirationAfterDays;
     }
 

@@ -1,5 +1,8 @@
 package com.practicum.pu.georgidinov.shoppinglist.security;
 
+import com.practicum.pu.georgidinov.shoppinglist.security.jwt.JwtPropertyHolder;
+import com.practicum.pu.georgidinov.shoppinglist.security.jwt.JwtTokenVerifier;
+import com.practicum.pu.georgidinov.shoppinglist.security.jwt.JwtUsernamePasswordAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -8,7 +11,9 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.config.http.SessionCreationPolicy;
+
+import static com.practicum.pu.georgidinov.shoppinglist.security.ShoppingListUserRole.USER;
 
 
 @Configuration
@@ -18,11 +23,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     //== fields ==
     private final DaoAuthenticationProvider daoAuthenticationProvider;
+    private final JwtPropertyHolder jwtPropertyHolder;
 
     //== constructors ==
     @Autowired
-    public SecurityConfig(DaoAuthenticationProvider daoAuthenticationProvider) {
+    public SecurityConfig(DaoAuthenticationProvider daoAuthenticationProvider,
+                          JwtPropertyHolder jwtPropertyHolder) {
         this.daoAuthenticationProvider = daoAuthenticationProvider;
+        this.jwtPropertyHolder = jwtPropertyHolder;
     }
 
 
@@ -38,23 +46,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .headers().frameOptions().disable()//to access H2 from browser
                 .and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .addFilter(new JwtUsernamePasswordAuthenticationFilter(authenticationManager(), this.jwtPropertyHolder))
+                .addFilterAfter(new JwtTokenVerifier(this.jwtPropertyHolder), JwtUsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                .antMatchers("/css/*", "/js/*", "/h2-console/**", "/register").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .formLogin()
-                .loginPage("/login").permitAll()
-                .defaultSuccessUrl("/home", true)
-                .usernameParameter("username")
-                .passwordParameter("password")
-                .and()
-                .logout()
-                .logoutUrl("/logout")
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
-                .clearAuthentication(true)
-                .invalidateHttpSession(true)
-                .deleteCookies("JSESSIONID")
-                .logoutSuccessUrl("/login");
+                .antMatchers("/css/*", "/js/*", "/h2-console/**","/login", "/register").permitAll()
+                .antMatchers("/items/**").hasRole(USER.name())
+                .anyRequest()
+                .authenticated();
+
     }
 
 }
