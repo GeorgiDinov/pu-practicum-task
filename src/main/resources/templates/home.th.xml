@@ -1,3 +1,0 @@
-<thlogic xmlns:th="http://www.thymeleaf.org">
-    <attr sel="#headId" th:replace="~{fragments/headFragment :: head}"/>
-</thlogic>
