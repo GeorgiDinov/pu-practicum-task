@@ -27,6 +27,8 @@ public class JwtUsernamePasswordAuthenticationFilter extends UsernamePasswordAut
                                                    JwtPropertyHolder jwtPropertyHolder) {
         this.authenticationManager = authenticationManager;
         this.jwtPropertyHolder = jwtPropertyHolder;
+
+        setFilterProcessesUrl("/login");
     }
 
     @Override
