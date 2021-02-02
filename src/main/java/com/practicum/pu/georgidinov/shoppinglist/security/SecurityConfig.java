@@ -51,7 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilter(new JwtUsernamePasswordAuthenticationFilter(authenticationManager(), this.jwtPropertyHolder))
                 .addFilterAfter(new JwtTokenVerifier(this.jwtPropertyHolder), JwtUsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                .antMatchers("/css/*", "/js/*", "/h2-console/**","/login", "/register").permitAll()
+                .antMatchers("/css/*", "/js/*", "/h2-console/**", "/", "/login", "/register").permitAll()
                 .antMatchers("/items/**").hasRole(USER.name())
                 .anyRequest()
                 .authenticated();

@@ -7,7 +7,6 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -25,7 +24,6 @@ import javax.persistence.Table;
 @Getter
 @Setter
 @EqualsAndHashCode
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -49,4 +47,13 @@ public class ShoppingListUserCredentials {
     @Enumerated(value = EnumType.STRING)
     private ShoppingListUserRole userRole;
 
+    @Override
+    public String toString() {
+        return "ShoppingListUserCredentials{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", userRole=" + userRole +
+                '}';
+    }
 }
