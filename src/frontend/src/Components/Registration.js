@@ -46,8 +46,48 @@ const Registration = () => {
 
     return (
         <div className="container">
+            <div className="col">
+                <form style={formStyle} onSubmit={handleRegister}>
+                    <input
+                        className="row"
+                        type="text"
+                        placeholder="First Name"
+                        onChange={(e) => onChangeFirstName(e)}
+                    />
+                    <input
+                        className="row"
+                        type="text"
+                        placeholder="Last Name"
+                        onChange={(e) => onChangeLastName(e)}
+                    />
+                    <input
+                        className="row"
+                        type="text"
+                        placeholder="Username"
+                        onChange={(e) => onChangeUsername(e)}
+                    />
+                    <input
+                        className="row"
+                        type="password"
+                        placeholder="Password"
+                        onChange={(e) => onChangePassword(e)}
+                    />
+                    <input
+                        type="submit"
+                        value="Register"
+                        className="btn btn-primary"
+                    />
+                </form>
+            </div>
         </div>
     )
+}
+
+const formStyle = {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center'
 }
 
 export default Registration

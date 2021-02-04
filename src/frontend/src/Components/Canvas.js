@@ -1,16 +1,18 @@
 import React from 'react'
-import Registration from "./Registration"
+import Navigation from "./Navigation";
+import {Route, Switch} from 'react-router-dom'
+import Registration from "./Registration";
+import Login from "./Login";
 
 const Canvas = () => {
     return (
-        <div className='container' style={style}>
-            <div className='row'>
-                <div className='col'>
-                    <p>Canvas</p>
-                </div>
-            </div>
-
-            <Registration/>
+        <div style={style}>
+            <Navigation/>
+            <Switch>
+                <Route exact path="/register" component={Registration}/>
+                {/*If you need to pass props use render*/}
+                <Route exact path="/login" render={() => <Login/>}/>
+            </Switch>
         </div>
     )
 }
