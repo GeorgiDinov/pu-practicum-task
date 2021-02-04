@@ -44,6 +44,7 @@ public class JwtUsernamePasswordAuthenticationFilter extends UsernamePasswordAut
                             authenticationRequest.getPassword());
 
             return this.authenticationManager.authenticate(authentication);
+
         } catch (IOException e) {
             throw new RuntimeException(e); //todo fix with custom exception
         }

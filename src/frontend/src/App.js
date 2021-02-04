@@ -1,25 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import Canvas from "./Components/Canvas";
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+    return (
+        <div className="container-fluid" style={style}>
+            <Canvas/>
+        </div>
+    );
+}
+
+const style = {
+    backgroundImage: 'url(https://images.pexels.com/photos/2449665/pexels-photo-2449665.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260)',
+    backgroundPosition: 'center',
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
+    minHeight: '100vh',
+    display: 'flex',
+    justifyContent:'center',
+    alignItems: 'center'
 }
 
 export default App;

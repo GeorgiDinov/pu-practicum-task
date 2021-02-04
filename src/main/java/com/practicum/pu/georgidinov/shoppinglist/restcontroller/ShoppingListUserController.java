@@ -7,6 +7,9 @@ import com.practicum.pu.georgidinov.shoppinglist.service.ShoppingListUserService
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -33,6 +36,12 @@ public class ShoppingListUserController {
         RegisteredUserCommand command = this.userService.save(userCommand);
         log.info("ShoppingListUserController register() Command Returned = {}", command);
         return command;
+    }
+
+    @GetMapping("/items/logout")
+    @ResponseStatus(HttpStatus.OK)
+    public void logout() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     }
 
 }
