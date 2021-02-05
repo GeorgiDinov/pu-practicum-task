@@ -51,7 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilter(new JwtUsernamePasswordAuthenticationFilter(authenticationManager(), this.jwtPropertyHolder))
                 .addFilterAfter(new JwtTokenVerifier(this.jwtPropertyHolder), JwtUsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                .antMatchers("/static/**", "/", "/register").permitAll()
+                .antMatchers("/", "/static/**", "/login", "/register").permitAll()
                 .antMatchers("/items/**").hasRole(USER.name())
                 .anyRequest()
                 .authenticated();

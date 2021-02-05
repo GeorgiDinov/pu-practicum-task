@@ -1,7 +1,11 @@
 package com.practicum.pu.georgidinov.shoppinglist.security.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.practicum.pu.georgidinov.shoppinglist.command.RegisteredUserCommand;
+import com.practicum.pu.georgidinov.shoppinglist.security.auth.ShoppingListUserDetails;
 import io.jsonwebtoken.Jwts;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -15,7 +19,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.Optional;
 
+@Slf4j
 public class JwtUsernamePasswordAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     //== fields ==
@@ -39,6 +45,9 @@ public class JwtUsernamePasswordAuthenticationFilter extends UsernamePasswordAut
                     new ObjectMapper()
                             .readValue(request.getInputStream(), UsernameAndPasswordAuthenticationRequest.class);
 
+            log.info("Login data received = {}", authenticationRequest);
+
+
             Authentication authentication =
                     new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(),
                             authenticationRequest.getPassword());
@@ -56,6 +65,9 @@ public class JwtUsernamePasswordAuthenticationFilter extends UsernamePasswordAut
                                             FilterChain chain,
                                             Authentication authResult) throws IOException, ServletException {
 
+        ShoppingListUserDetails userDetails = (ShoppingListUserDetails) authResult.getPrincipal();
+        log.info("UserDetails id={} and name={} in successfulAuthMethod", userDetails.getUserId(), userDetails.getUsername());
+
         String token = Jwts.builder()
                 .setSubject(authResult.getName())
                 .claim("authorities", authResult.getAuthorities())
@@ -65,5 +77,14 @@ public class JwtUsernamePasswordAuthenticationFilter extends UsernamePasswordAut
                 .compact();
 
         response.addHeader(jwtPropertyHolder.getAuthorizationHeader(), jwtPropertyHolder.getTokenPrefix() + token);
+
+        log.info("Token issued = {}", jwtPropertyHolder.getTokenPrefix() + token);
+
+        RegisteredUserCommand command = new RegisteredUserCommand(userDetails.getUserId(), userDetails.getUsername());
+        String json = new ObjectMapper()
+                .writeValueAsString(ResponseEntity.of(Optional.of(command)).getBody());
+        log.info("The json = {}", json);
+        response.setContentType("application/json");
+        response.getWriter().write(json);
     }
 }

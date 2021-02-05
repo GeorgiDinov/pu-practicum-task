@@ -1,5 +1,5 @@
-import React, {useState} from 'react'
-import authService from "../Services/auth-service"
+import React, {useState} from 'react';
+import axios from "axios";
 
 const Registration = () => {
 
@@ -30,17 +30,30 @@ const Registration = () => {
         setPassword(password);
     }
 
+    const REGISTER = "register";
+
+
     const handleRegister = (e) => {
         e.preventDefault();
 
         setSuccessful(false);
-
-        authService.register(firstName, lastName, username, password)
-            .then(() => {
+        return axios
+            .post(REGISTER, {
+                firstName,
+                lastName,
+                username,
+                password,
+            }).then((response) => {
+                let regUserDTO = {
+                    "id": response.data.id,
+                    "username": response.data.username
+                }
+                console.log(regUserDTO);
+                localStorage.setItem("regUserDTO", JSON.stringify(regUserDTO));
                 setSuccessful(true);
-            })
-            .catch(() => {
-                setSuccessful(false);
+                return response.data;
+            }).catch((response) => {
+                console.log(response.status);
             });
     };
 
