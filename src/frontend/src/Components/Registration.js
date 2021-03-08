@@ -1,13 +1,15 @@
 import React, {useState} from 'react';
 import axios from "axios";
+import {Button, Col, Form} from "react-bootstrap";
 
 const Registration = () => {
 
+    const REGISTRATION_URL = "/register";
+
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
-    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [successful, setSuccessful] = useState(false);
 
 
     const onChangeFirstName = (e) => {
@@ -20,9 +22,9 @@ const Registration = () => {
         setLastName(lastName);
     }
 
-    const onChangeUsername = (e) => {
-        const username = e.target.value;
-        setUsername(username);
+    const onChangeEmail = (e) => {
+        const email = e.target.value;
+        setEmail(email);
     }
 
     const onChangePassword = (e) => {
@@ -30,27 +32,32 @@ const Registration = () => {
         setPassword(password);
     }
 
-    const REGISTER = "register";
+    function createRequestObject() {
+        return {
+            firstName,
+            lastName,
+            user_credentials: {
+                email,
+                password
+            }
+        };
+    }
+
+    function clearRegistrationFields() {
+        document.getElementById('registrationForm').reset();
+    }
 
 
     const handleRegister = (e) => {
         e.preventDefault();
+        let request = createRequestObject();
+        clearRegistrationFields();
+        console.log(request);
 
-        setSuccessful(false);
         return axios
-            .post(REGISTER, {
-                firstName,
-                lastName,
-                username,
-                password,
-            }).then((response) => {
-                let regUserDTO = {
-                    "id": response.data.id,
-                    "username": response.data.username
-                }
-                console.log(regUserDTO);
-                localStorage.setItem("regUserDTO", JSON.stringify(regUserDTO));
-                setSuccessful(true);
+            .post(REGISTRATION_URL, request)
+            .then((response) => {
+                console.log(response.status);
                 return response.data;
             }).catch((response) => {
                 console.log(response.status);
@@ -58,49 +65,42 @@ const Registration = () => {
     };
 
     return (
-        <div className="container">
-            <div className="col">
-                <form style={formStyle} onSubmit={handleRegister}>
-                    <input
-                        className="row"
-                        type="text"
-                        placeholder="First Name"
-                        onChange={(e) => onChangeFirstName(e)}
-                    />
-                    <input
-                        className="row"
-                        type="text"
-                        placeholder="Last Name"
-                        onChange={(e) => onChangeLastName(e)}
-                    />
-                    <input
-                        className="row"
-                        type="text"
-                        placeholder="Username"
-                        onChange={(e) => onChangeUsername(e)}
-                    />
-                    <input
-                        className="row"
-                        type="password"
-                        placeholder="Password"
-                        onChange={(e) => onChangePassword(e)}
-                    />
-                    <input
-                        type="submit"
-                        value="Register"
-                        className="btn btn-primary"
-                    />
-                </form>
-            </div>
+        <div className='col'>
+            <Form id="registrationForm" onSubmit={event => handleRegister(event)}>
+                <Form.Row>
+                    <Form.Group as={Col} controlId="formGridFirstName">
+                        <Form.Label>First Name</Form.Label>
+                        <Form.Control type="text" placeholder="First name"
+                                      onChange={event => onChangeFirstName(event)}/>
+                    </Form.Group>
+
+                    <Form.Group as={Col} controlId="formGridLastName">
+                        <Form.Label>Last Name</Form.Label>
+                        <Form.Control type="text" placeholder="Last name" onChange={event => onChangeLastName(event)}/>
+                    </Form.Group>
+                </Form.Row>
+
+                <Form.Row>
+                    <Form.Group as={Col} controlId="formGridEmail">
+                        <Form.Label>Email address</Form.Label>
+                        <Form.Control type="email" placeholder="Your email" onChange={event => onChangeEmail(event)}/>
+                    </Form.Group>
+
+                    <Form.Group as={Col} controlId="formGridPassword">
+                        <Form.Label>Password</Form.Label>
+                        <Form.Control type="password" placeholder="Your password"
+                                      onChange={event => onChangePassword(event)}/>
+                    </Form.Group>
+                </Form.Row>
+
+
+                <Button variant="outline-info" type="submit">
+                    Register
+                </Button>
+            </Form>
         </div>
     )
 }
 
-const formStyle = {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center'
-}
 
 export default Registration
