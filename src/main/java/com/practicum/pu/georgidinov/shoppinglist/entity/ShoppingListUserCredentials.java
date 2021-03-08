@@ -37,7 +37,7 @@ public class ShoppingListUserCredentials {
     @Column(name = "user_credentials_id")
     private Long id;
 
-    private String username;
+    private String email;
     private String password;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -51,7 +51,7 @@ public class ShoppingListUserCredentials {
     public String toString() {
         return "ShoppingListUserCredentials{" +
                 "id=" + id +
-                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", userRole=" + userRole +
                 '}';

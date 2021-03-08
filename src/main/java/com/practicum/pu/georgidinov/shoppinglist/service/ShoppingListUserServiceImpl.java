@@ -1,9 +1,10 @@
 package com.practicum.pu.georgidinov.shoppinglist.service;
 
-import com.practicum.pu.georgidinov.shoppinglist.command.RegisteredUserCommand;
-import com.practicum.pu.georgidinov.shoppinglist.command.UserCommand;
 import com.practicum.pu.georgidinov.shoppinglist.entity.ShoppingListUser;
 import com.practicum.pu.georgidinov.shoppinglist.entity.ShoppingListUserCredentials;
+import com.practicum.pu.georgidinov.shoppinglist.model.RegisteredUserCommand;
+import com.practicum.pu.georgidinov.shoppinglist.model.UserCredentials;
+import com.practicum.pu.georgidinov.shoppinglist.model.UserRegistrationRequest;
 import com.practicum.pu.georgidinov.shoppinglist.repository.ShoppingListUserCredentialsRepository;
 import com.practicum.pu.georgidinov.shoppinglist.repository.ShoppingListUserRepository;
 import com.practicum.pu.georgidinov.shoppinglist.security.auth.ShoppingListUserDetails;
@@ -15,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.function.Consumer;
 
 import static com.practicum.pu.georgidinov.shoppinglist.security.ShoppingListUserRole.USER;
 
@@ -40,19 +42,24 @@ public class ShoppingListUserServiceImpl implements ShoppingListUserService {
 
     //== public methods ==
     @Override
-    public RegisteredUserCommand save(UserCommand userCommand) {
+    public RegisteredUserCommand save(UserRegistrationRequest userRegistrationRequest) {
         //todo userCommand verification
-        if (isUsernameExists(userCommand.getUsername())) {
-            log.info("{} exists!", userCommand.getUsername());
-            throw new RuntimeException("Username " + userCommand.getUsername() + " exists");//todo implement custom exception
+        // only null fields verification
+        this.registrationRequestVerifier.accept(userRegistrationRequest);
+
+        String email = userRegistrationRequest.getUserCredentials().getEmail();
+
+        if (isUsernameExists(email)) {
+            log.info("{} exists!", email);
+            throw new RuntimeException("Username " + email + " exists");//todo implement custom exception
         }
 
-        log.info("ShoppingListUserServiceImpl save(), DTO Passed = {}", userCommand);
-        ShoppingListUser newUser = this.createUserFromUserCommand(userCommand);
+        log.info("ShoppingListUserServiceImpl save(), DTO Passed = {}", userRegistrationRequest);
+        ShoppingListUser newUser = this.createUserFromUserCommand(userRegistrationRequest);
         ShoppingListUser savedUser = this.userRepository.save(newUser);
         log.info("ShoppingListUserServiceImpl save() savedUser data = {} ", savedUser.getUserCredentials());
         RegisteredUserCommand registeredUserCommand = RegisteredUserCommand.builder()
-                .username(savedUser.getUserCredentials().getUsername())
+                .username(savedUser.getUserCredentials().getEmail())
                 .id(savedUser.getId()).build();
         log.info("ShoppingListUserServiceImpl save() Command Returned = {}", registeredUserCommand);
         return registeredUserCommand;
@@ -71,15 +78,17 @@ public class ShoppingListUserServiceImpl implements ShoppingListUserService {
 
 
     //== private methods ==
-    private ShoppingListUser createUserFromUserCommand(UserCommand userCommand) {
+    private ShoppingListUser createUserFromUserCommand(UserRegistrationRequest userRegistrationRequest) {
+        UserCredentials credentials = userRegistrationRequest.getUserCredentials();
+
         ShoppingListUserCredentials userCredentials = ShoppingListUserCredentials.builder()
-                .username(userCommand.getUsername())
-                .password(passwordEncoder.encode(userCommand.getPassword()))
+                .email(credentials.getEmail())
+                .password(passwordEncoder.encode(credentials.getPassword()))
                 .userRole(USER).build();
 
         ShoppingListUser user = ShoppingListUser.builder()
-                .firstName(userCommand.getFirstName())
-                .lastName(userCommand.getLastName())
+                .firstName(userRegistrationRequest.getFirstName())
+                .lastName(userRegistrationRequest.getLastName())
                 .userCredentials(userCredentials).build();
 
         userCredentials.setUser(user);
@@ -91,8 +100,29 @@ public class ShoppingListUserServiceImpl implements ShoppingListUserService {
 
     private boolean isUsernameExists(String username) {
         Optional<ShoppingListUserCredentials> optionalCredentials =
-                this.userCredentialsRepository.findByUsername(username);
+                this.userCredentialsRepository.findByEmail(username);
         return optionalCredentials.isPresent();
     }
+
+    private final Consumer<UserRegistrationRequest> registrationRequestVerifier = request -> {
+        if (request == null) {
+            throw new RuntimeException("Request is Null");
+        }
+        if (request.getFirstName() == null) {
+            throw new RuntimeException("Request First Name is Null");
+        }
+        if (request.getLastName() == null) {
+            throw new RuntimeException("Request Last Name is Null");
+        }
+        if (request.getUserCredentials() == null) {
+            throw new RuntimeException("Request Credentials are Null");
+        }
+        if (request.getUserCredentials().getEmail() == null) {
+            throw new RuntimeException("Request Credentials Email is Null");
+        }
+        if (request.getUserCredentials().getPassword() == null) {
+            throw new RuntimeException("Request Credentials Password is Null");
+        }
+    };
 
 }

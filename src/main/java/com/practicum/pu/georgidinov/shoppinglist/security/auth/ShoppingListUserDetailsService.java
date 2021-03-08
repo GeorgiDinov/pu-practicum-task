@@ -24,7 +24,7 @@ public class ShoppingListUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         Optional<ShoppingListUserCredentials> optionalShoppingListUserCredentials =
-                this.shoppingListUserCredentialsRepository.findByUsername(username);
+                this.shoppingListUserCredentialsRepository.findByEmail(username);
 
         ShoppingListUserCredentials userCredentials =
                 optionalShoppingListUserCredentials

@@ -1,8 +1,8 @@
 package com.practicum.pu.georgidinov.shoppinglist.restcontroller;
 
 
-import com.practicum.pu.georgidinov.shoppinglist.command.RegisteredUserCommand;
-import com.practicum.pu.georgidinov.shoppinglist.command.UserCommand;
+import com.practicum.pu.georgidinov.shoppinglist.model.RegisteredUserCommand;
+import com.practicum.pu.georgidinov.shoppinglist.model.UserRegistrationRequest;
 import com.practicum.pu.georgidinov.shoppinglist.service.ShoppingListUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,9 +31,9 @@ public class ShoppingListUserController {
     //== public methods ==
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public RegisteredUserCommand register(@RequestBody UserCommand userCommand) {
-        log.info("ShoppingListUserController register() DTO Passed = {}", userCommand);
-        RegisteredUserCommand command = this.userService.save(userCommand);
+    public RegisteredUserCommand register(@RequestBody UserRegistrationRequest userRegistrationRequest) {
+        log.info("ShoppingListUserController register() DTO Passed = {}", userRegistrationRequest);
+        RegisteredUserCommand command = this.userService.save(userRegistrationRequest);
         log.info("ShoppingListUserController register() Command Returned = {}", command);
         return command;
     }

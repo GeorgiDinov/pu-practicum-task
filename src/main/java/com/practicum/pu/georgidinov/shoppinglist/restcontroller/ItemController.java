@@ -1,9 +1,9 @@
 package com.practicum.pu.georgidinov.shoppinglist.restcontroller;
 
 
-import com.practicum.pu.georgidinov.shoppinglist.command.ItemCommand;
-import com.practicum.pu.georgidinov.shoppinglist.command.SavedItemCommand;
 import com.practicum.pu.georgidinov.shoppinglist.exception.ValidationCheckException;
+import com.practicum.pu.georgidinov.shoppinglist.model.ItemCommand;
+import com.practicum.pu.georgidinov.shoppinglist.model.SavedItemCommand;
 import com.practicum.pu.georgidinov.shoppinglist.service.ItemService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

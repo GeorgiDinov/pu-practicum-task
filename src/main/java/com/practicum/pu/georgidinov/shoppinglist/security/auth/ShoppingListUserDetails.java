@@ -38,7 +38,7 @@ public class ShoppingListUserDetails implements UserDetails {
     public ShoppingListUserDetails(ShoppingListUserCredentials shoppingListUserCredentials) {
         this.shoppingListUserCredentials = shoppingListUserCredentials;
         this.userId = this.shoppingListUserCredentials.getUser().getId();
-        this.username = this.shoppingListUserCredentials.getUsername();
+        this.username = this.shoppingListUserCredentials.getEmail();
         this.password = this.shoppingListUserCredentials.getPassword();
         this.grantedAuthorities = shoppingListUserCredentials.getUserRole().getGrantedAuthorities();
     }

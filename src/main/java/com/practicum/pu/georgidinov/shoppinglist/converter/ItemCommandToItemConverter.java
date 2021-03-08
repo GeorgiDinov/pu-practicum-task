@@ -1,8 +1,8 @@
 package com.practicum.pu.georgidinov.shoppinglist.converter;
 
-import com.practicum.pu.georgidinov.shoppinglist.command.ItemCommand;
 import com.practicum.pu.georgidinov.shoppinglist.entity.Item;
 import com.practicum.pu.georgidinov.shoppinglist.entity.ShoppingListUser;
+import com.practicum.pu.georgidinov.shoppinglist.model.ItemCommand;
 
 public class ItemCommandToItemConverter {
 

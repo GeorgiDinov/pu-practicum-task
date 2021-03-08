@@ -1,6 +1,5 @@
-package com.practicum.pu.georgidinov.shoppinglist.command;
+package com.practicum.pu.georgidinov.shoppinglist.model;
 
-import com.practicum.pu.georgidinov.shoppinglist.baseentity.BaseNamedEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,10 +11,10 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ItemCommand implements BaseNamedEntity {
+public class SavedItemCommand {
 
     private Long id;
     private String name;
     private int quantity;
-
+    private boolean isSelected;
 }

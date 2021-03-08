@@ -1,4 +1,4 @@
-package com.practicum.pu.georgidinov.shoppinglist.command;
+package com.practicum.pu.georgidinov.shoppinglist.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,13 +11,11 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @ToString
-public class UserCommand {
+@Builder
+public class RegisteredUserCommand {
 
-    private String firstName;
-    private String lastName;
+    private Long id;
     private String username;
-    private String password;
 
 }

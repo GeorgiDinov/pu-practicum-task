@@ -5,12 +5,12 @@ import {Button, Col, Form} from "react-bootstrap";
 
 const Login = () => {
 
-    const [email, setEmail] = useState("");
+    const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
-    const onChangeEmail = (e) => {
-        const email = e.target.value;
-        setEmail(email);
+    const onChangeUsername = (e) => {
+        const username = e.target.value;
+        setUsername(username);
     }
 
     const onChangePassword = (e) => {
@@ -22,10 +22,10 @@ const Login = () => {
 
     const handleLogin = (e) => {
         e.preventDefault();
-        console.log(email + " " + password);
+        console.log(username + " " + password);
         return axios
             .post(LOGIN, {
-                email,
+                username,
                 password
             })
             .then((response) => {
@@ -51,7 +51,7 @@ const Login = () => {
                 <Form.Row>
                     <Form.Group as={Col} controlId="formGroupEmail">
                         <Form.Label>Email address</Form.Label>
-                        <Form.Control type="email" placeholder="Your email" onChange={event => onChangeEmail(event)}/>
+                        <Form.Control type="email" placeholder="Your email" onChange={event => onChangeUsername(event)}/>
                     </Form.Group>
                     <Form.Group as={Col} controlId="formGroupPassword">
                         <Form.Label>Password</Form.Label>

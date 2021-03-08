@@ -1,8 +1,8 @@
 package com.practicum.pu.georgidinov.shoppinglist.service;
 
-import com.practicum.pu.georgidinov.shoppinglist.command.ItemCommand;
-import com.practicum.pu.georgidinov.shoppinglist.command.SavedItemCommand;
 import com.practicum.pu.georgidinov.shoppinglist.exception.ValidationCheckException;
+import com.practicum.pu.georgidinov.shoppinglist.model.ItemCommand;
+import com.practicum.pu.georgidinov.shoppinglist.model.SavedItemCommand;
 
 import java.util.List;
 

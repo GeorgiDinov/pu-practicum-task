@@ -1,11 +1,11 @@
 package com.practicum.pu.georgidinov.shoppinglist.service;
 
-import com.practicum.pu.georgidinov.shoppinglist.command.RegisteredUserCommand;
-import com.practicum.pu.georgidinov.shoppinglist.command.UserCommand;
+import com.practicum.pu.georgidinov.shoppinglist.model.RegisteredUserCommand;
+import com.practicum.pu.georgidinov.shoppinglist.model.UserRegistrationRequest;
 
 public interface ShoppingListUserService {
 
-    RegisteredUserCommand save(UserCommand userCommand);
+    RegisteredUserCommand save(UserRegistrationRequest userRegistrationRequest);
 
     RegisteredUserCommand getRegisteredUserCommand();
 }

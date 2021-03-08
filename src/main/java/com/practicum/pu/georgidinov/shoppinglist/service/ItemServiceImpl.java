@@ -1,13 +1,13 @@
 package com.practicum.pu.georgidinov.shoppinglist.service;
 
-import com.practicum.pu.georgidinov.shoppinglist.command.ItemCommand;
-import com.practicum.pu.georgidinov.shoppinglist.command.SavedItemCommand;
 import com.practicum.pu.georgidinov.shoppinglist.converter.ItemCommandToItemConverter;
 import com.practicum.pu.georgidinov.shoppinglist.converter.ItemToSavedItemCommandConverter;
 import com.practicum.pu.georgidinov.shoppinglist.entity.Item;
 import com.practicum.pu.georgidinov.shoppinglist.entity.ShoppingListUser;
 import com.practicum.pu.georgidinov.shoppinglist.exception.ItemNotFoundException;
 import com.practicum.pu.georgidinov.shoppinglist.exception.ValidationCheckException;
+import com.practicum.pu.georgidinov.shoppinglist.model.ItemCommand;
+import com.practicum.pu.georgidinov.shoppinglist.model.SavedItemCommand;
 import com.practicum.pu.georgidinov.shoppinglist.repository.ItemRepository;
 import com.practicum.pu.georgidinov.shoppinglist.repository.ShoppingListUserRepository;
 import com.practicum.pu.georgidinov.shoppinglist.validator.BaseNamedEntityValidator;

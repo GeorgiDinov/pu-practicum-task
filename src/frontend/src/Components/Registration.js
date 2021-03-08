@@ -57,7 +57,8 @@ const Registration = () => {
         return axios
             .post(REGISTRATION_URL, request)
             .then((response) => {
-                console.log(response.status);
+                console.log("Status = " + response.status);
+                console.log("Data = " + response.data);
                 return response.data;
             }).catch((response) => {
                 console.log(response.status);

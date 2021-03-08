@@ -1,7 +1,7 @@
 package com.practicum.pu.georgidinov.shoppinglist.security.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.practicum.pu.georgidinov.shoppinglist.command.RegisteredUserCommand;
+import com.practicum.pu.georgidinov.shoppinglist.model.RegisteredUserCommand;
 import com.practicum.pu.georgidinov.shoppinglist.security.auth.ShoppingListUserDetails;
 import io.jsonwebtoken.Jwts;
 import lombok.extern.slf4j.Slf4j;

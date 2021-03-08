@@ -9,7 +9,7 @@ const MainContent = () => {
             <Switch>
                 <Route exact path="/signup" component={Registration}/>
                 {/*If you need to pass props use render*/}
-                <Route exact path="/login" render={() => <Login/>}/>
+                <Route exact path="/signin" render={() => <Login/>}/>
             </Switch>
         </div>
     );

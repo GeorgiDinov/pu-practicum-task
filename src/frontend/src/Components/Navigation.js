@@ -12,8 +12,8 @@ const Navigation = () => {
                 </NavLink>
             </div>
             <div className='col-1 nav-pills'>
-                <NavLink exact activeClassName="active-link" to="/login">
-                    LogIn
+                <NavLink exact activeClassName="active-link" to="/signin">
+                    SignIn
                 </NavLink>
             </div>
             <div className='col-1 nav-pills'>

@@ -8,5 +8,7 @@ import java.util.Optional;
 
 @Repository
 public interface ShoppingListUserCredentialsRepository extends CrudRepository<ShoppingListUserCredentials, Long> {
-    Optional<ShoppingListUserCredentials> findByUsername(String username);
+
+    Optional<ShoppingListUserCredentials> findByEmail(String email);
+
 }
