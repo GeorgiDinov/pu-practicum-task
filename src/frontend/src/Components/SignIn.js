@@ -3,7 +3,7 @@ import axios from 'axios';
 import {Button, Col, Form} from "react-bootstrap";
 
 
-const Login = () => {
+const SignIn = () => {
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -20,6 +20,11 @@ const Login = () => {
 
     const LOGIN = "/login";
 
+    function clearSignInFormFields() {
+        document.getElementById('signInForm').reset();
+    }
+
+
     const handleLogin = (e) => {
         e.preventDefault();
         console.log(username + " " + password);
@@ -29,29 +34,28 @@ const Login = () => {
                 password
             })
             .then((response) => {
-                console.log("Response header = " + response.headers.authorization);
                 if (response.headers.authorization) {
-                    console.log("Inside If Statement");
+                    clearSignInFormFields();
                     localStorage.setItem('token', response.headers.authorization);
                     localStorage.setItem('loggedInUser', JSON.stringify(response.data));
                 }
-
-                console.log(response.data)
                 return response.data;
             })
             .catch((response) => {
-                console.log("Login Error = " + response.status);
+                console.log("SignIn Error = " + response.status);
             });
 
     }
 
     return (
         <div className='col'>
-            <Form onSubmit={event => handleLogin(event)}>
+            {/*<Message{id}/>*/}
+            <Form id='signInForm' onSubmit={event => handleLogin(event)}>
                 <Form.Row>
                     <Form.Group as={Col} controlId="formGroupEmail">
                         <Form.Label>Email address</Form.Label>
-                        <Form.Control type="email" placeholder="Your email" onChange={event => onChangeUsername(event)}/>
+                        <Form.Control type="email" placeholder="Your email"
+                                      onChange={event => onChangeUsername(event)}/>
                     </Form.Group>
                     <Form.Group as={Col} controlId="formGroupPassword">
                         <Form.Label>Password</Form.Label>
@@ -62,8 +66,7 @@ const Login = () => {
                 <Button variant="outline-info" type="submit">Login</Button>
             </Form>
         </div>
-    )
+    );
 }
 
-
-export default Login
+export default SignIn

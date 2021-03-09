@@ -45,7 +45,7 @@ public class JwtUsernamePasswordAuthenticationFilter extends UsernamePasswordAut
                     new ObjectMapper()
                             .readValue(request.getInputStream(), UsernameAndPasswordAuthenticationRequest.class);
 
-            log.info("Login data received = {}", authenticationRequest);
+            log.info("SignIn data received = {}", authenticationRequest);
 
 
             Authentication authentication =

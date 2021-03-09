@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import axios from "axios";
 import {Button, Col, Form} from "react-bootstrap";
 
-const Registration = () => {
+const SignUp = (props) => {
 
     const REGISTRATION_URL = "/register";
 
@@ -51,15 +51,20 @@ const Registration = () => {
     const handleRegister = (e) => {
         e.preventDefault();
         let request = createRequestObject();
-        clearRegistrationFields();
         console.log(request);
 
         return axios
             .post(REGISTRATION_URL, request)
             .then((response) => {
                 console.log("Status = " + response.status);
-                console.log("Data = " + response.data);
-                return response.data;
+                console.log("Data = " + JSON.stringify(response.data));
+                clearRegistrationFields();
+                // window.location.href = "/signin";
+                props.history.push({
+                    pathname: "/signin",
+                    state: JSON.stringify(response.data)
+                });
+
             }).catch((response) => {
                 console.log(response.status);
             });
@@ -104,4 +109,4 @@ const Registration = () => {
 }
 
 
-export default Registration
+export default SignUp

@@ -38,7 +38,7 @@ public class ShoppingListUserController {
         return command;
     }
 
-    @GetMapping("/items/logout")
+    @GetMapping("/logout")
     @ResponseStatus(HttpStatus.OK)
     public void logout() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
