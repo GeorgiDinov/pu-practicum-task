@@ -49,7 +49,6 @@ const SignIn = () => {
 
     return (
         <div className='col'>
-            {/*<Message{id}/>*/}
             <Form id='signInForm' onSubmit={event => handleLogin(event)}>
                 <Form.Row>
                     <Form.Group as={Col} controlId="formGroupEmail">

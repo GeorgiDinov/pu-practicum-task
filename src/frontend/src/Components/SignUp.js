@@ -60,10 +60,7 @@ const SignUp = (props) => {
                 console.log("Data = " + JSON.stringify(response.data));
                 clearRegistrationFields();
                 // window.location.href = "/signin";
-                props.history.push({
-                    pathname: "/signin",
-                    state: JSON.stringify(response.data)
-                });
+                props.history.push("/signin");
 
             }).catch((response) => {
                 console.log(response.status);
