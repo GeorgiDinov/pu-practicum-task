@@ -10,7 +10,7 @@ const MainContent = () => {
             <Switch>
                 <Route exact path="/signup" component={SignUp}/>
                 {/*If you need to pass props use render*/}
-                <Route exact path="/signin" render={() => <SignIn/>}/>
+                <Route exact path="/signin" component={SignIn}/>
 
                 <Route exact path="/main" render={() => <ItemPane/>}/>
             </Switch>

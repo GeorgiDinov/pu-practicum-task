@@ -3,7 +3,7 @@ import axios from 'axios';
 import {Button, Col, Form} from "react-bootstrap";
 
 
-const SignIn = () => {
+const SignIn = (props) => {
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -38,8 +38,9 @@ const SignIn = () => {
                     clearSignInFormFields();
                     localStorage.setItem('token', response.headers.authorization);
                     localStorage.setItem('loggedInUser', JSON.stringify(response.data));
+                    props.history.push("/main")
                 }
-                return response.data;
+                //return response.data;
             })
             .catch((response) => {
                 console.log("SignIn Error = " + response.status);
